@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="Pt-Br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filmes Interdisciplinar</title>
+
+  <!-- 
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/Filmes.css">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body id="top">
+  <header class="header" data-header>
+    <div class="container">
+
+      <div class="overlay" data-overlay></div>
+
+      <a href="./Home Page.html" class="logo">
+        <img src="assets/images/logoo.png" alt="Film Echo logo">
+      </a>      
+      
+
+      <div class="header-actions">
+        <button class="search-btn">
+          <ion-icon name="search-outline"></ion-icon>
+        </button>
+        <div class="lang-wrapper">
+          <label for="language">
+            <ion-icon name="globe-outline"></ion-icon>
+          </label>
+          <select name="language" id="language">
+            <option value="en">Pt-Br</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" onclick="window.location.href = './Pagina de Login.html';">Entrar</button>
+      </div>
+
+      <button class="menu-open-btn" data-menu-open-btn>
+        <ion-icon name="reorder-two"></ion-icon>
+      </button>
+
+      <nav class="navbar" data-navbar>
+        <div class="navbar-top">
+          <a href="./Home Page.html" class="logo">
+            <img src="./assets/images/logoo.png" alt="Film Echo logo">
+          </a>
+          <button class="menu-close-btn" data-menu-close-btn>
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
+
+        <ul class="navbar-list">
+          <li><a href="./Home Page.html" class="navbar-link">Inicio</a></li>
+          <li><a href="./Filmes.html" class="navbar-link">Filmes</a></li>
+          <li><a href="./Avaliações.html" class="navbar-link">Avaliações</a></li>
+          <li><a href="./Favoritos.html" class="navbar-link">Favoritos</a></li>
+          <li><a href="./Criadores.html" class="navbar-link">Criadores</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+
+  <main>
+    <article>
+      <section class="hero">
+        <div class="container">
+          <!-- Carrossel de filmes populares da semana -->
+          <div class="movie-carousel">
+            <!-- O filme atual será exibido via JS -->
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+  <!-- JavaScript para buscar filmes e realizar a troca automática com background e transição suave -->
+  <script>
+    const apiKey = 'e8ad7288aafe45a2654c370953748b4a';
+    const movieCarousel = document.querySelector('.movie-carousel');
+    let currentMovieIndex = 0;
+    let movies = [];
+  
+    // Função para mostrar o filme atual com transição suave
+    function showMovie(movie) {
+      // Cria um novo item do filme com transição suave
+      const movieItem = document.createElement('div');
+      movieItem.classList.add('movie-item', 'entering'); // Adiciona a classe 'entering' para animação inicial
+      movieItem.style.backgroundImage = `url('https://image.tmdb.org/t/p/w1280${movie.backdrop_path}')`;
+  
+      // Adiciona as informações sobre o filme
+      movieItem.innerHTML = `
+        <div class="movie-info">
+          <h3 class="movie-title">${movie.title}</h3>
+          <p class="movie-synopsis">${movie.overview}</p>
+          <button class="btn btn-primary" onclick="window.open('https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title)}+trailer')">
+            Assista o Trailer
+          </button>
+        </div>
+      `;
+  
+      movieCarousel.appendChild(movieItem);
+  
+      // Remove a classe 'entering' após a transição para iniciar o efeito de fade in
+      setTimeout(() => {
+        movieItem.classList.remove('entering');
+        movieItem.classList.add('active'); // Agora o filme atual está ativo
+      }, 100);
+  
+      // Remover o filme anterior com transição
+      if (movieCarousel.children.length > 1) {
+        const previousMovie = movieCarousel.children[0];
+        previousMovie.classList.add('exiting'); // Adiciona a classe 'exiting' para fade out
+        setTimeout(() => previousMovie.remove(), 500); // Remove o filme anterior após a transição
+      }
+    }
+  
+    // Função para mudar de filme a cada 5 segundos
+    function changeMovie() {
+      currentMovieIndex = (currentMovieIndex + 1) % movies.length;
+      showMovie(movies[currentMovieIndex]);
+    }
+  
+    // Requisição para pegar os filmes populares da semana
+    fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}&language=pt-BR`)
+      .then(response => response.json())
+      .then(data => {
+        movies = data.results.slice(0, 10); // Mostrando 10 filmes populares
+        showMovie(movies[currentMovieIndex]); // Mostrar o primeiro filme
+        setInterval(changeMovie, 5000); // Trocar a cada 5 segundos
+      })
+      .catch(error => console.error('Erro ao buscar filmes:', error));
+  </script>
+  
+  
+
+      <!-- Carrossel de Filmes Populares -->
+      <section class="upcoming">
+        <div class="container">
+          <div class="flex-wrapper">
+            <div class="title-wrapper">
+              <h2 class="h2 section-title">Nossos filmes</h2>
+              <p class="section-subtitle">Populares Agora</p>
+            </div>
+            <ul id="carousel-movies-list" class="movies-list has-scrollbar">
+              <!-- Carrossel de filmes será carregado via JavaScript -->
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+
+<!-- 
+  - #FOOTER
+-->
+
+<footer class="footer">
+  <div class="footer-top">
+    <div class="container">
+      <div class="footer-brand-wrapper">
+        <a href="./Home Page.html" class="logooo">
+          <img src="./assets/images/logooo.png" alt="Film Echo logo">
+        </a>        
+        <ul class="footer-list">
+          <li><a href="./Home Page.html" class="footer-link">Inicio</a></li>
+          <li><a href="./Filmes.html" class="footer-link">Filmes</a></li>
+          <li><a href="./Avaliações.html" class="footer-link">Avaliações</a></li>
+          <li><a href="./Favoritos.html" class="footer-link">Favoritos</a></li>
+          <li><a href="./Criadores.html" class="footer-link">Criadores</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <p class="copyright">&copy; 2024 <a href="#">Gabriel Farias</a>. All Rights Reserved</p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- 
+  - #GO TO TOP
+-->
+
+<a href="#top" class="go-top" data-go-top>
+  <ion-icon name="chevron-up"></ion-icon>
+</a>
+
+<!-- 
+  - custom js link
+-->
+<script src="./assets/js/script.js"></script>
+
+<!-- 
+  - ionicon link
+-->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>

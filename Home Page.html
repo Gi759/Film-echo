@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="Pt-Br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page Interdisciplinar</title>
+
+  <!-- 
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/Home Page.css">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body id="top">
+  <header class="header" data-header>
+    <div class="container">
+
+      <div class="overlay" data-overlay></div>
+
+      <a href="./Home Page.html" class="logo">
+        <img src="assets/images/logoo.png" alt="Film Echo logo">
+      </a>      
+      
+
+      <div class="header-actions">
+        <button class="search-btn">
+          <ion-icon name="search-outline"></ion-icon>
+        </button>
+        <div class="lang-wrapper">
+          <label for="language">
+            <ion-icon name="globe-outline"></ion-icon>
+          </label>
+          <select name="language" id="language">
+            <option value="en">Pt-Br</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" onclick="window.location.href = './Pagina de Login.html';">Entrar</button>
+      </div>
+
+      <button class="menu-open-btn" data-menu-open-btn>
+        <ion-icon name="reorder-two"></ion-icon>
+      </button>
+
+      <nav class="navbar" data-navbar>
+        <div class="navbar-top">
+          <a href="./Home Page.html" class="logo">
+            <img src="./assets/images/logoo.png" alt="Film Echo logo">
+          </a>
+          <button class="menu-close-btn" data-menu-close-btn>
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
+
+        <ul class="navbar-list">
+          <li><a href="./Home Page.html" class="navbar-link">Inicio</a></li>
+          <li><a href="./Filmes.html" class="navbar-link">Filmes</a></li>
+          <li><a href="./Avaliações.html" class="navbar-link">Avaliações</a></li>
+          <li><a href="./Favoritos.html" class="navbar-link">Favoritos</a></li>
+          <li><a href="./Criadores.html" class="navbar-link">Criadores</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <article>
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <p class="hero-subtitle">Interdisciplinar</p>
+            <h1 class="h1 hero-title">
+              Filmes <strong>Ilimitados</strong>, Avaliações & Mais.
+            </h1>
+            <div class="meta-wrapper">
+              <div class="badge-wrapper">
+                <div class="badge badge-fill">+16</div>
+                <div class="badge badge-outline">HD</div>
+              </div>
+              <div class="ganre-wrapper">
+                <a href="#">Ação,</a>
+                <a href="#">Comédia </a>
+              </div>
+              <div class="date-time">
+                <div>
+                  <ion-icon name="calendar-outline"></ion-icon>
+                  <time datetime="2024">2024</time>
+                </div>
+                <div>
+                  <ion-icon name="time-outline"></ion-icon>
+                  <time datetime="PT128M">2h 7m</time>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="window.location.href='https://www.youtube.com/watch?v=JjnzxHdZtYY'">
+              <ion-icon name="play"></ion-icon>
+              <span>Assista Agora</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="upcoming">
+        <div class="container">
+          <div class="flex-wrapper">
+            <div class="title-wrapper">
+              <p class="section-subtitle">transmissão on-line</p>
+              <h2 class="h2 section-title">Próximos Filmes</h2>
+            </div>
+            <ul class="filter-list">
+              <li><button class="filter-btn">Filmes</button></li>
+              <li><button class="filter-btn">Animação</button></li>
+            </ul>
+          </div>
+          <ul id="movies-list" class="movies-list has-scrollbar">
+            <!-- Lista de filmes será inserida aqui -->
+          </ul>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <!-- Script para buscar dados do TMDB -->
+  <script>
+    const apiKey = 'e8ad7288aafe45a2654c370953748b4a';  // Insira sua chave da API do TMDb aqui
+    const upcomingMoviesURL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=pt-BR&page=1`;
+
+    async function fetchMovies() {
+      try {
+        const response = await fetch(upcomingMoviesURL);
+        const data = await response.json();
+        displayMovies(data.results);
+      } catch (error) {
+        console.error('Erro ao buscar filmes:', error);
+      }
+    }
+
+    function displayMovies(movies) {
+      const moviesList = document.getElementById('movies-list');
+      moviesList.innerHTML = '';  // Limpa a lista antes de adicionar novos filmes
+
+      movies.forEach(movie => {
+        const movieCard = `
+          <li>
+            <div class="movie-card">
+              <a href="./movie-details.html">
+                <figure class="card-banner">
+                  <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} movie poster">
+                </figure>
+              </a>
+              <div class="title-wrapper">
+                <a href="./movie-details.html">
+                  <h3 class="card-title">${movie.title}</h3>
+                </a>
+                <time datetime="${movie.release_date}">${new Date(movie.release_date).getFullYear()}</time>
+              </div>
+              <div class="card-meta">
+                <div class="badge badge-outline">${movie.original_language.toUpperCase()}</div>
+                <div class="duration">
+                  <ion-icon name="time-outline"></ion-icon>
+                  <time datetime="">${movie.runtime || 'N/A'} min</time>
+                </div>
+                <div class="rating">
+                  <ion-icon name="star"></ion-icon>
+                  <data>${movie.vote_average.toFixed(1)}</data>
+                </div>
+              </div>
+            </div>
+          </li>
+        `;
+        moviesList.innerHTML += movieCard;
+      });
+    }
+
+    fetchMovies();
+  </script>
+ <!-- Filmes Populares Section (Adicionada ao estilo do carrossel anterior) -->
+<section class="upcoming">
+  <div class="container">
+    <div class="flex-wrapper">
+      <div class="title-wrapper">
+        <p class="section-subtitle">populares agora</p>
+        <h2 class="h2 section-title">Filmes Populares</h2>
+      </div>
+      <ul class="filter-list">
+        <li><button class="filter-btn">Filmes</button></li>
+        <li><button class="filter-btn">Ação</button></li>
+        <li><button class="filter-btn">Drama</button></li>
+      </ul>
+    </div>
+    <ul id="popular-movies-list" class="movies-list has-scrollbar">
+      <!-- Lista de filmes populares será inserida aqui -->
+    </ul>
+  </div>
+</section>
+
+<!-- Código JS para buscar filmes populares -->
+<script>
+  const popularMoviesURL = `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}&language=pt-BR`;
+  async function fetchPopularMovies() {
+    try {
+      const response = await fetch(popularMoviesURL);
+      const data = await response.json();
+      displayPopularMovies(data.results);
+    } catch (error) {
+      console.error('Erro ao buscar filmes populares:', error);
+    }
+  }
+
+  function displayPopularMovies(movies) {
+    const popularMoviesList = document.getElementById('popular-movies-list');
+    popularMoviesList.innerHTML = '';  // Limpa a lista antes de adicionar novos filmes
+
+    movies.forEach(movie => {
+      const movieCard = `
+        <li>
+          <div class="movie-card">
+            <a href="./movie-details.html">
+              <figure class="card-banner">
+                <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} movie poster">
+              </figure>
+            </a>
+            <div class="title-wrapper">
+              <a href="./movie-details.html">
+                <h3 class="card-title">${movie.title}</h3>
+              </a>
+              <time datetime="${movie.release_date}">${new Date(movie.release_date).getFullYear()}</time>
+            </div>
+            <div class="card-meta">
+              <div class="badge badge-outline">${movie.original_language.toUpperCase()}</div>
+              <div class="duration">
+                <ion-icon name="time-outline"></ion-icon>
+                <time datetime="">${movie.runtime || 'N/A'} min</time>
+              </div>
+              <div class="rating">
+                <ion-icon name="star"></ion-icon>
+                <data>${movie.vote_average.toFixed(1)}</data>
+              </div>
+            </div>
+          </div>
+        </li>
+      `;
+      popularMoviesList.innerHTML += movieCard;
+    });
+  }
+
+  fetchPopularMovies();
+</script>
+
+<!-- 
+  - #FOOTER
+-->
+
+<footer class="footer">
+  <div class="footer-top">
+    <div class="container">
+      <div class="footer-brand-wrapper">
+        <a href="./Home Page.html" class="logooo">
+          <img src="./assets/images/logooo.png" alt="Film Echo logo">
+        </a>        
+        <ul class="footer-list">
+          <li><a href="./Home Page.html" class="footer-link">Inicio</a></li>
+          <li><a href="./Filmes.html" class="footer-link">Filmes</a></li>
+          <li><a href="./Avaliações.html" class="footer-link">Avaliações</a></li>
+          <li><a href="./Favoritos.html" class="footer-link">Favoritos</a></li>
+          <li><a href="./Criadores.html" class="footer-link">Criadores</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <p class="copyright">&copy; 2024 <a href="#">Gabriel Farias</a>. All Rights Reserved</p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- 
+  - #GO TO TOP
+-->
+
+<a href="#top" class="go-top" data-go-top>
+  <ion-icon name="chevron-up"></ion-icon>
+</a>
+
+<!-- 
+  - custom js link
+-->
+<script src="./assets/js/script.js"></script>
+
+<!-- 
+  - ionicon link
+-->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>
