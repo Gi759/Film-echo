@@ -67,13 +67,13 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     border-radius: 4px;
-    background: url(../img/Heart.svg) no-repeat center / 80%;
+    background: url(/Fim-echo/assets/images/Heart.svg) no-repeat center / 80%;
     outline: none;
     cursor: pointer;
   }
   
   .cards__parte2-checkbox:checked {
-    background: url(../img/heart-full.svg) no-repeat center / 80%;
+    background: url(/Fim-echo/assets/images/heart-full.svg) no-repeat center / 80%;
   }
   
 .cards__parte3 {

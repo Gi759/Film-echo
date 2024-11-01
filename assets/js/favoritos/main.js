@@ -38,7 +38,7 @@ function InserirFilmesNaTela(filmes) {
 
     const ratingDiv = document.createElement('div');
     const ratingImg = document.createElement('img');
-    ratingImg.src = 'img/Star.svg';
+    ratingImg.src = 'assets/images/Star.svg';
     ratingImg.alt = 'star';
     ratingImg.className = 'cards__parte2-icon';
     const ratingText = document.createElement('h2');
