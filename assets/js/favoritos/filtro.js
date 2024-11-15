@@ -5,8 +5,8 @@ const filtroAtivo = document.getElementById('cabecalho__checkbox');
 
 filtroAtivo.addEventListener('change', getFilmesFavoritos);
 
-const inputPesquisa = document.querySelector('.cabecalho__pesquisa-input');
-const lupa = document.querySelector('.cabecalho__pesquisa-lupa');
+const inputPesquisa = document.querySelector('.search-input');
+const lupa = document.querySelector('.search-button');
 lupa.addEventListener('click', pesquisarFilmes);
 
 function pesquisarFilmes() {
