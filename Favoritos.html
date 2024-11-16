@@ -76,6 +76,9 @@
       </nav>
     </div>
   </header>
+
+
+  <!-- Título e Barra de Pesquisa -->
   <section class="topo">
     <h1 class="titulo">Favoritos</h1>
     <div class="search-container">
@@ -85,6 +88,20 @@
       </button>
     </div>
   </section>
+
+
+  <!-- Seção de Filmes -->
+  <section class="movies-section">
+    <h2 class="section-title">Seus Filmes Favoritos</h2>
+    <ul class="movies-list">
+      <!-- Filmes serão adicionados dinamicamente aqui -->
+    </ul>
+  </section>
+
+  <!-- Botão para Carregar Mais Filmes -->
+  <button id="carregarMais" class="btn btn-primary">Carregar Mais Filmes</button>
+
+  
 <!-- 
   - #FOOTER
 -->
@@ -125,7 +142,10 @@
 <!-- 
   - custom js link
 -->
-<script src="./assets/js/script.js"></script>
+<script type="module" src="./assets/js/script.js"></script>
+<script type="module" src="./assets/js/favoritos/main.js"></script>
+<script type="module" src="./assets/js/favoritos/script.js"></script>
+<script type="module" src="./assets/js/favoritos/filtro.js"></script>
 
 <!-- 
   - ionicon link

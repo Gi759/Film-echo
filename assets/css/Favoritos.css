@@ -314,7 +314,7 @@ body.active { overflow: hidden; }
 .movie-card .card-title:is(:hover, :focus) { color: var(--citrine); }
 
 .movie-card .title-wrapper time {
-  color: var(--citrine);
+  color: var(--white);
   font-size: var(--fs-9);
   font-weight: var(--fw-500);
 }
@@ -342,7 +342,6 @@ body.active { overflow: hidden; }
 .movie-card :is(.duration, .rating) ion-icon {
   font-size: 13px;
   --ionicon-stroke-width: 50px;
-  color: var(--citrine);
 }
 
 /**
@@ -1337,3 +1336,115 @@ body.active { overflow: hidden; }
   margin: 0px 30px 0px;
   font-size: var(--fs-1);
  }
+
+
+ /**
+  * Movie Cards
+  */
+  
+  .movies-section {
+    padding: 50px var(--section-padding);
+    background-color: var(--raisin-black);
+  }
+  
+  .movies-section .section-title {
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: var(--fs-2);
+  }
+  
+  .movies-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .movie-card {
+    background-color: var(--gunmetal-1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  
+  .movie-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .title-wrapper {
+    padding: 10px 15px;
+  }
+  
+  .card-title {
+    color: var(--white);
+    font-size: var(--fs-7);
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .card-title:hover {
+    color: var(--citrine);
+  }
+  
+  .card-meta {
+    padding: 10px 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .badge {
+    background-color: var(--citrine);
+    color: var(--white);
+    font-size: var(--fs-9);
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+  
+  .rating, .duration {
+    color: var(--white);
+    font-size: var(--fs-9);
+    display: flex;
+    align-items: center;
+  }
+  
+  .duration ion-icon {
+    margin-right: 5px;
+    color: var(--white);
+  }
+
+  .rating ion-icon {
+    margin-right: 5px;
+    color: rgba(255, 255, 0, 0.815);
+  }
+
+  
+/**
+ * Botão de Carregar Mais Filmes
+ */
+
+ .btn-primary {
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: var(--fs-9);
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: var(--citrine);
+  color: var(--raisin-black);
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: var(--rich-black-fogra-29);
+  color: var(--white);
+}

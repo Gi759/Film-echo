@@ -1,21 +1,32 @@
 import { InserirFilmesNaTela } from "./main.js";
 
-export const apiKey = '9bbf7d734588f0a01ba0510c39e7e786';
-let movies = []; 
+const apiKey = '9bbf7d734588f0a01ba0510c39e7e786';
+let currentPage = 1;
 
-fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=pt-BR`)
-  .then(response => response.json())
-  .then(data => {
-    movies = data.results.slice(0, 10); // Atribui o valor a movies, por exemplo (top 10 filmes populares)
-    InserirFilmesNaTela(movies);
-  })
-  .catch(error => {
-    console.error('Ocorreu um erro ao obter os filmes populares:', error);
-  });
+// Função para carregar filmes da API
+function carregarFilmes(page = 1) {
+  fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=pt-BR&page=${page}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erro ao conectar à API.');
+      }
+      return response.json();
+    })
+    .then(data => {
+      const filmes = data.results;
+      InserirFilmesNaTela(filmes); // Adiciona filmes ao DOM
+    })
+    .catch(error => {
+      console.error('Erro ao carregar filmes:', error);
+    });
+}
 
-const home = document.querySelector('.cabecalho__titulo');
-home.addEventListener('click', () => {
-  InserirFilmesNaTela(movies);
-  document.getElementById('cabecalho__checkbox').checked = false;
-  document.querySelector('.card__lista-vazia').style.display = 'none';
+// Inicializa com a primeira página
+carregarFilmes(currentPage);
+
+// Botão "Carregar Mais"
+const carregarMaisBtn = document.querySelector('#carregarMais');
+carregarMaisBtn.addEventListener('click', () => {
+  currentPage++;
+  carregarFilmes(currentPage);
 });
