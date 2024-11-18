@@ -16,7 +16,6 @@
     - custom css link
   -->
   <link rel="stylesheet" href="./assets/css/Filmes.css">
-
   <!-- 
     - google font link
   -->
@@ -37,9 +36,6 @@
       
 
       <div class="header-actions">
-        <button class="search-btn">
-          <ion-icon name="search-outline"></ion-icon>
-        </button>
         <div class="lang-wrapper">
           <label for="language">
             <ion-icon name="globe-outline"></ion-icon>
@@ -105,13 +101,15 @@
       const movieItem = document.createElement('div');
       movieItem.classList.add('movie-item', 'entering'); // Adiciona a classe 'entering' para animação inicial
       movieItem.style.backgroundImage = `url('https://image.tmdb.org/t/p/w1280${movie.backdrop_path}')`;
+      movieItem.style.width = '100%'; // Garante que ocupa 100% do tamanho do container
+      movieItem.style.height = '100%'; // Ajusta a altura dinamicamente
   
       // Adiciona as informações sobre o filme
       movieItem.innerHTML = `
         <div class="movie-info">
           <h3 class="movie-title">${movie.title}</h3>
           <p class="movie-synopsis">${movie.overview}</p>
-          <button class="btn btn-primary" onclick="window.open('https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title)}+trailer')">
+          <button class="btn trailer" onclick="window.open('https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title)}+trailer')">
             Assista o Trailer
           </button>
         </div>
@@ -140,7 +138,7 @@
     }
   
     // Requisição para pegar os filmes populares da semana
-    fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}&language=pt-BR`)
+    fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}&language=pt-BR&region=BR`)
       .then(response => response.json())
       .then(data => {
         movies = data.results.slice(0, 10); // Mostrando 10 filmes populares
@@ -152,20 +150,167 @@
   
   
 
-      <!-- Carrossel de Filmes Populares -->
-      <section class="upcoming">
-        <div class="container">
-          <div class="flex-wrapper">
-            <div class="title-wrapper">
-              <h2 class="h2 section-title">Nossos filmes</h2>
-              <p class="section-subtitle">Populares Agora</p>
-            </div>
-            <ul id="carousel-movies-list" class="movies-list has-scrollbar">
-              <!-- Carrossel de filmes será carregado via JavaScript -->
-            </ul>
+      <body>
+        <section class="upcoming">
+          <div class="container">
+            <div class="flex-wrapper">
+              <!-- Título da Seção -->
+              <div class="title-wrapper">
+                <h2 class="h2 section-title">Nossos Filmes</h2>
+                <p class="section-subtitle">A-Z</p>
+              </div>
+      
+              <!-- Botão Hambúrguer para Categorias -->
+              <div class="hamburger-menu">
+                <button id="hamburger-btn" class="filter-btn">☰ Categorias</button>
+                <ul id="genre-list" class="filter-list hidden">
+                  <!-- Gêneros serão preenchidos dinamicamente -->
+                </ul>
+              </div>
+      
+              <!-- Grade de Filmes -->
+              <div class="movies-grid" id="movies-grid">
+                <!-- Os filmes serão carregados dinamicamente -->
+             
+          <!-- Botão "Carregar Mais" -->
+          <div class="load-more-wrapper">
+            <button id="load-more-btn" class="filter-btn hidden">Carregar Mais</button>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  </main>
+  
+  <script>
+    const apiBaseURL = 'https://api.themoviedb.org/3';
+    const imageBaseURL = 'https://image.tmdb.org/t/p/w500';
+  
+    // Elementos do DOM
+    const moviesGrid = document.getElementById('movies-grid');
+    const genreList = document.getElementById('genre-list');
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const loadMoreBtn = document.createElement('button'); // Botão "Carregar Mais"
+  
+    // Variáveis de controle
+    let currentPage = 1; // Página inicial
+    let totalPages = 0; // Total de páginas disponíveis
+    let currentGenre = 'all'; // Gênero atual (todos os filmes)
+  
+    // Configurar o botão "Carregar Mais"
+    loadMoreBtn.textContent = 'Carregar Mais';
+    loadMoreBtn.classList.add('filter-btn');
+    loadMoreBtn.addEventListener('click', () => {
+      currentPage++;
+      fetchMovies(); // Carregar próxima página de filmes
+    });
+  
+    // Alternar visibilidade do menu hambúrguer
+    hamburgerBtn.addEventListener('click', () => {
+      genreList.classList.toggle('hidden');
+    });
+  
+    // Obter gêneros de filmes da API do TMDB
+    async function fetchGenres() {
+      try {
+        const response = await fetch(`${apiBaseURL}/genre/movie/list?api_key=${apiKey}&language=pt-BR`);
+        const data = await response.json();
+        displayGenres(data.genres);
+      } catch (error) {
+        console.error('Erro ao buscar gêneros:', error);
+      }
+    }
+  
+    // Exibir gêneros no menu hambúrguer
+    function displayGenres(genres) {
+      genres.forEach(genre => {
+        const genreItem = document.createElement('li');
+        genreItem.innerHTML = `<button class="filter-btn" data-genre="${genre.id}">${genre.name}</button>`;
+        genreList.appendChild(genreItem);
+  
+        // Adicionar evento de clique para filtrar filmes
+        genreItem.querySelector('button').addEventListener('click', () => {
+          currentGenre = genre.id; // Atualiza o gênero atual
+          currentPage = 1; // Reinicia a páginação
+          fetchMovies(); // Carrega filmes do gênero selecionado
+          genreList.classList.add('hidden'); // Fecha o menu após clicar
+        });
+      });
+    }
+  
+    // Obter filmes da API
+
+    let allMovies = []; // Armazena todos os filmes carregados até agora
+    
+    async function fetchMovies() {
+      try {
+        const endpoint = currentGenre === 'all'
+          ? `${apiBaseURL}/discover/movie?api_key=${apiKey}&language=pt-BR&page=${currentPage}`
+          : `${apiBaseURL}/discover/movie?api_key=${apiKey}&language=pt-BR&page=${currentPage}&with_genres=${currentGenre}`;
+  
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        totalPages = data.total_pages; // Atualiza o total de páginas disponíveis
+  
+        // Atualizar e exibir os filmes na tela
+        displayMovies(data.results);
+  
+        // Adicionar ou remover o botão "Carregar Mais"
+        if (currentPage < totalPages) {
+          if (!document.body.contains(loadMoreBtn)) {
+            moviesGrid.parentElement.appendChild(loadMoreBtn);
+          }
+        } else {
+          loadMoreBtn.remove();
+        }
+      } catch (error) {
+        console.error('Erro ao buscar os filmes:', error);
+      }
+    }
+  
+  // Exibir os filmes na grade, ordenados alfabética e por símbolos/números
+function displayMovies(movies) {
+  if (currentPage === 1) moviesGrid.innerHTML = ''; // Limpa os filmes da página anterior
+
+  // Ordenar os filmes por título
+  const sortedMovies = movies.sort((a, b) => {
+    const titleA = a.title || ''; // Caso o título seja indefinido
+    const titleB = b.title || '';
+
+    // Priorizar símbolos e números
+    const isSpecialA = /^[^a-zA-Z]/.test(titleA);
+    const isSpecialB = /^[^a-zA-Z]/.test(titleB);
+
+    if (isSpecialA && !isSpecialB) return -1; // Símbolos/números antes
+    if (!isSpecialA && isSpecialB) return 1;  // Letras depois
+
+    // Ordenação alfabética em português
+    return titleA.localeCompare(titleB, 'pt', { sensitivity: 'base' });
+  });
+
+  // Renderizar os filmes
+  sortedMovies.forEach(movie => {
+    const { title, poster_path, vote_average } = movie;
+    const movieCard = `
+      <div class="movie-card">
+        <img src="${imageBaseURL}${poster_path}" alt="${title}" class="movie-poster">
+        <h3 class="titulo-movie">${title}</h3>
+        <p class="movie-rating">TMDB ${vote_average}</p>
+      </div>
+    `;
+    moviesGrid.innerHTML += movieCard;
+  });
+}
+
+  
+    // Inicializar
+    fetchGenres();
+    fetchMovies();
+  </script>
+   
+   
+
+      </body>
+      
 
 
 
