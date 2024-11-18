@@ -1,57 +1,72 @@
-const apiKey = 'e8ad7288aafe45a2654c370953748b4a';  // Substitua com sua chave da API
-const upcomingApiURL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=pt-BR&page=1`;
-const topRatedApiURL = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=pt-BR&page=1`;
+const apiKey = 'e8ad7288aafe45a2654c370953748b4a';
 
-const upcomingMoviesElement = document.getElementById('upcoming-movies');
-const topRatedMoviesElement = document.getElementById('top-rated-movies');
+const upcomingMoviesURL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=pt-BR&region=BR`;
+const popularMoviesURL = `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}&language=pt-BR&region=BR`;
 
-// Função para buscar e exibir filmes
-async function fetchMovies(url, container) {
-  console.log('Fetching movies from:', url); // Para verificar a URL
+// Função para buscar detalhes do filme (incluindo duração)
+async function fetchMovieDetails(movieId) {
+  const movieDetailsURL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=pt-BR&region=BR`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(movieDetailsURL);
     const data = await response.json();
-    console.log('Data fetched:', data); // Para verificar os dados retornados
-
-    // Limpa o container antes de adicionar novos filmes
-    container.innerHTML = ''; 
-
-    data.results.forEach(movie => {
-      const movieCard = `
-        <li>
-          <div class="movie-card">
-            <a href="./movie-details.html?id=${movie.id}">
-              <figure class="card-banner">
-                <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} poster">
-              </figure>
-            </a>
-            <div class="title-wrapper">
-              <h3 class="card-title">${movie.title}</h3>
-              <time datetime="${movie.release_date}">${new Date(movie.release_date).toLocaleDateString('pt-BR')}</time>
-            </div>
-            <div class="card-meta">
-              <div class="badge badge-outline">${movie.original_language.toUpperCase()}</div>
-              <div class="duration">
-                <ion-icon name="time-outline"></ion-icon>
-                <time>${movie.runtime || 'N/A'} min</time>
-              </div>
-              <div class="rating">
-                <ion-icon name="star"></ion-icon>
-                <data>${movie.vote_average}</data>
-              </div>
-            </div>
-          </div>
-        </li>
-      `;
-      container.innerHTML += movieCard;
-    });
+    return data.runtime;
   } catch (error) {
-    console.error('Erro ao carregar os filmes:', error);
+    console.error('Erro ao buscar detalhes do filme:', error);
+    return null;
   }
 }
 
-// Chama as funções ao carregar a página
-window.onload = () => {
-  fetchMovies(upcomingApiURL, upcomingMoviesElement);
-  fetchMovies(topRatedApiURL, topRatedMoviesElement);
-};
+// Função para buscar filmes
+async function fetchMovies(url, callback) {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    callback(data.results.slice(0, 20));
+  } catch (error) {
+    console.error('Erro ao buscar filmes:', error);
+  }
+}
+
+// Filtra os filmes com lançamento a partir de dezembro de 2024
+function filterUpcomingMovies(movies) {
+  return movies.filter(movie => {
+    const releaseDate = new Date(movie.release_date);
+    return releaseDate.getFullYear() > 2024 || 
+           (releaseDate.getFullYear() === 2024 && releaseDate.getMonth() >= 10);
+  });
+}
+
+// Função para exibir filmes (incluindo duração)
+async function displayMovies(movies, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+
+  for (const movie of movies) {
+    const runtime = await fetchMovieDetails(movie.id);
+
+    const movieCard = `
+      <li>
+        <div class="movie-card">
+          <a href="./movie-details.html?id=${movie.id}">
+            <figure class="card-banner">
+              <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}">
+            </figure>
+          </a>
+          <div class="title-wrapper">
+            <a href="./movie-details.html?id=${movie.id}" class="card-title">${movie.title}</a>
+            <time datetime="${movie.release_date}">${movie.release_date}</time>
+          </div>
+          <div class="card-meta">
+            <div class="badge badge-outline">${movie.original_language}</div>
+            <div class="badge badge-outline">${runtime ? runtime + ' min' : 'Duração Indisponível'}</div>
+          </div>
+        </div>
+      </li>
+    `;
+    container.innerHTML += movieCard;
+  }
+}
+
+// Exibe os filmes na página
+fetchMovies(upcomingMoviesURL, movies => displayMovies(filterUpcomingMovies(movies), 'movies-list'));
+fetchMovies(popularMoviesURL, movies => displayMovies(movies, 'popular-movies-list'));
