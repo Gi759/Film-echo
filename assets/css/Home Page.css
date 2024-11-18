@@ -997,22 +997,6 @@ body.active { overflow: hidden; }
 
   .header-actions .btn-primary { display: none; }
 
-  .search-btn {
-    position: relative;
-    color: var(--white);
-  }
-
-  .search-btn ion-icon { --ionicon-stroke-width: 80px; }
-
-  .search-btn::after {
-    content: "";
-    position: absolute;
-    top: 1px;
-    right: -20px;
-    background: hsla(0, 0%, 100%, 0.1);
-    width: 2px;
-    height: 14px;
-  }
 
   .lang-wrapper {
     display: flex;
@@ -1099,14 +1083,6 @@ body.active { overflow: hidden; }
 .copyright { margin-bottom: 0; }
 
 
-
-  /**
-   * MOVIE DETAIL
-   */
-
-  .detail-subtitle { --fs-5: 26px; }
-
-  .detail-title { --fs-1: 50px; }
 
 }
 
