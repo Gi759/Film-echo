@@ -1,69 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Movie Details</title>
-
-  <!-- favicon -->
+  <title>Detalhes do Filme</title>
   <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
-
-  <!-- custom css link -->
-  <link rel="stylesheet" href="./assets/css/Home Page.css">
-
-  <!-- google font link -->
+  <link rel="stylesheet" href="./assets/css/Movie-Details.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body id="#top">
-
-  <!-- #HEADER -->
+<body id="top">
   <header class="header" data-header>
     <div class="container">
       <div class="overlay" data-overlay></div>
-      <a href="./index.html" class="logo">
-        <img src="./assets/images/logo.svg" alt="Filmlane logo">
-      </a>
-
+      <a href="./Home Page.html" class="logo">
+        <img src="assets/images/logoo.png" alt="Film Echo logo">
+      </a>      
       <div class="header-actions">
-        <button class="search-btn">
-          <ion-icon name="search-outline"></ion-icon>
-        </button>
-
         <div class="lang-wrapper">
           <label for="language">
             <ion-icon name="globe-outline"></ion-icon>
           </label>
-
           <select name="language" id="language">
-            <option value="en">EN</option>
-            <option value="au">AU</option>
-            <option value="ar">AR</option>
-            <option value="tu">TU</option>
+            <option value="en">Pt-Br</option>
           </select>
         </div>
-
-        <button class="btn btn-primary">Sign in</button>
+        <button class="btn btn-primary" onclick="window.location.href = './Pagina de Login.html';">Entrar</button>
       </div>
-
       <button class="menu-open-btn" data-menu-open-btn>
         <ion-icon name="reorder-two"></ion-icon>
       </button>
-
       <nav class="navbar" data-navbar>
         <div class="navbar-top">
-          <a href="./index.html" class="logo">
-            <img src="./assets/images/logo.svg" alt="Filmlane logo">
+          <a href="./Home Page.html" class="logo">
+            <img src="./assets/images/logoo.png" alt="Film Echo logo">
           </a>
           <button class="menu-close-btn" data-menu-close-btn>
             <ion-icon name="close-outline"></ion-icon>
           </button>
         </div>
-
         <ul class="navbar-list">
           <li><a href="./Home Page.html" class="navbar-link">Inicio</a></li>
           <li><a href="./Filmes.html" class="navbar-link">Filmes</a></li>
@@ -71,198 +50,85 @@
           <li><a href="./Favoritos.html" class="navbar-link">Favoritos</a></li>
           <li><a href="./Criadores.html" class="navbar-link">Criadores</a></li>
         </ul>
-
-        <ul class="navbar-social-list">
-          <li><a href="#" class="navbar-social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
-          <li><a href="#" class="navbar-social-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
-          <li><a href="#" class="navbar-social-link"><ion-icon name="logo-pinterest"></ion-icon></a></li>
-          <li><a href="#" class="navbar-social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
-          <li><a href="#" class="navbar-social-link"><ion-icon name="logo-youtube"></ion-icon></a></li>
-        </ul>
       </nav>
     </div>
   </header>
-
+  
+ 
   <main>
     <article>
-
-      <!-- #MOVIE DETAIL -->
-      <section class="movie-detail">
+      <section class="movie-detail" id="movie-detail">
         <div class="container">
           <figure class="movie-detail-banner">
-            <img src="" alt="Movie poster" />
+            <img src="" alt="Poster do filme" />
             <button class="play-btn">
               <ion-icon name="play-circle-outline"></ion-icon>
             </button>
           </figure>
-
           <div class="movie-detail-content">
-            <p class="detail-subtitle">New Episodes</p>
             <h1 class="h1 detail-title"></h1>
-
             <div class="meta-wrapper">
               <div class="badge-wrapper">
-                <div class="badge badge-fill">PG 13</div>
+                <div class="badge badge-fill classification"></div>
                 <div class="badge badge-outline">HD</div>
               </div>
-
-              <div class="ganre-wrapper">
-                <!-- Genres will be added here -->
-              </div>
-
+              <div class="ganre-wrapper"></div>
               <div class="date-time">
                 <div>
                   <ion-icon name="calendar-outline"></ion-icon>
-                  <time datetime="2021"></time>
+                  <time class="release-date"></time>
                 </div>
-
                 <div>
                   <ion-icon name="time-outline"></ion-icon>
-                  <time datetime="PT115M"></time>
+                  <time class="runtime"></time>
                 </div>
               </div>
             </div>
-
             <p class="storyline"></p>
-
             <div class="details-actions">
-              <button class="share">
-                <ion-icon name="share-social"></ion-icon>
-                <span>Share</span>
-              </button>
-
-              <div class="title-wrapper">
-                <p class="title">Prime Video</p>
-                <p class="text">Streaming Channels</p>
-              </div>
-
+              <div class="title-wrapper streaming-info"></div>
               <button class="btn btn-primary">
                 <ion-icon name="play"></ion-icon>
-                <span>Watch Now</span>
+                <span>Assistir Agora</span>
               </button>
             </div>
-
-            <a href="#" download class="download-btn">
-              <span>Download</span>
-              <ion-icon name="download-outline"></ion-icon>
-            </a>
           </div>
         </div>
       </section>
-
-      <!-- #MOVIE COMMENTS -->
-      <section class="movie-comments">
-        <h2>Comentários e Avaliações</h2>
-
-        <div class="user-rating">
-          <label for="rating">Sua Avaliação:</label>
-          <select id="rating">
-            <option value="1">1 Estrela</option>
-            <option value="2">2 Estrelas</option>
-            <option value="3">3 Estrelas</option>
-            <option value="4">4 Estrelas</option>
-            <option value="5">5 Estrelas</option>
-          </select>
-          <button onclick="submitRating()">Enviar Avaliação</button>
-        </div>
-
-        <div class="user-comment">
-          <textarea id="comment" placeholder="Deixe seu comentário..."></textarea>
-          <button onclick="submitComment()">Enviar Comentário</button>
-        </div>
-
-        <div class="comments-list">
-          <!-- Comentários serão carregados aqui -->
-        </div>
-      </section>
-
-      <footer class="footer">
-        <div class="footer-top">
-          <div class="container">
-
-            <div class="footer-brand-wrapper">
-              <a href="./index.html" class="logo">
-                <img src="./assets/images/logo.svg" alt="Filmlane logo">
-              </a>
-
-              <ul class="footer-list">
-                <li><a href="./index.html" class="footer-link">Home</a></li>
-                <li><a href="#" class="footer-link">Movie</a></li>
-                <li><a href="#" class="footer-link">TV Show</a></li>
-                <li><a href="#" class="footer-link">Web Series</a></li>
-                <li><a href="#" class="footer-link">Pricing</a></li>
-              </ul>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="quicklink-wrapper">
-              <ul class="quicklink-list">
-                <li><a href="#" class="quicklink-link">Faq</a></li>
-                <li><a href="#" class="quicklink-link">Help center</a></li>
-                <li><a href="#" class="quicklink-link">Terms of use</a></li>
-                <li><a href="#" class="quicklink-link">Privacy</a></li>
-              </ul>
-
-              <ul class="social-list">
-                <li><a href="#" class="social-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
-                <li><a href="#" class="social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
-                <li><a href="#" class="social-link"><ion-icon name="logo-pinterest"></ion-icon></a></li>
-                <li><a href="#" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
-              </ul>
-            </div>
-
-          </div>
-        </div>
-      </footer>
     </article>
   </main>
 
-  <script>
-    const apiKey = 'e8ad7288aafe45a2654c370953748b4a'; // Substitua pelo seu API Key do TMDb
-    const movieId = new URLSearchParams(window.location.search).get('id'); // Pegando o ID do filme pela URL
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-brand-wrapper">
+          <a href="./Home Page.html" class="logooo">
+            <img src="./assets/images/logooo.png" alt="Film Echo logo">
+          </a>        
+          <ul class="footer-list">
+            <li><a href="./Home Page.html" class="footer-link">Inicio</a></li>
+            <li><a href="./Filmes.html" class="footer-link">Filmes</a></li>
+            <li><a href="./Avaliações.html" class="footer-link">Avaliações</a></li>
+            <li><a href="./Favoritos.html" class="footer-link">Favoritos</a></li>
+            <li><a href="./Criadores.html" class="footer-link">Criadores</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p class="copyright">&copy; 2024 <a href="#">2° DS</a>. All Rights Reserved</p>
+      </div>
+    </div>
+  </footer>
 
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&append_to_response=credits,videos`)
-      .then(response => response.json())
-      .then(data => {
-        displayMovieDetails(data);
-      })
-      .catch(error => console.error('Error fetching movie data:', error));
+  <a href="#top" class="go-top" data-go-top>
+    <ion-icon name="chevron-up"></ion-icon>
+  </a>
 
-    function displayMovieDetails(movie) {
-      document.querySelector('.detail-title').innerHTML = movie.title;
-      document.querySelector('.storyline').innerHTML = movie.overview;
-      document.querySelector('time[datetime]').innerHTML = movie.release_date;
-      document.querySelector('time[datetime="PT115M"]').innerHTML = movie.runtime + " mins";
-
-      const genresContainer = document.querySelector('.ganre-wrapper');
-      movie.genres.forEach(genre => {
-        const genreElement = document.createElement('span');
-        genreElement.classList.add('badge', 'badge-outline');
-        genreElement.textContent = genre.name;
-        genresContainer.appendChild(genreElement);
-      });
-
-      const movieBanner = document.querySelector('.movie-detail-banner img');
-      movieBanner.src = `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`;
-    }
-
-    function submitRating() {
-      const rating = document.getElementById('rating').value;
-      alert(`Você avaliou este filme com ${rating} estrelas!`);
-      // Aqui você pode implementar a lógica para enviar a avaliação ao servidor
-    }
-
-    function submitComment() {
-      const comment = document.getElementById('comment').value;
-      const commentList = document.querySelector('.comments-list');
-      const commentElement = document.createElement('div');
-      commentElement.textContent = comment;
-      commentList.appendChild(commentElement);
-      document.getElementById('comment').value = ''; // Limpa o campo de comentário
-    }
-  </script>
-  <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons.js"></script>
+  <script src="./assets/js/Movie-Details.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>
