@@ -32,7 +32,7 @@
     --xiketic: hsl(0,14%,10%);
     --gray-x: hsl(0, 0%, 74%);
     --white: hsl(0, 100%, 100%);
-    --black: hsl(313, 56%, 50%);
+    --black: hsl(0, 0%, 0%);
     --jet: hsl(0,0%,20%);
   
     /**
@@ -527,13 +527,14 @@
 \*-----------------------------------*/
 
 .movie-detail {
-    position: relative;
-    background: url("../images/movie-detail-bg.png") no-repeat;
-    background-size: cover;
-    background-position: center;
-    padding-top: 160px;
-    padding-bottom: var(--section-padding);
-  }
+  position: relative;
+  background: var(--gray-x) no-repeat center center; /* Cor de fallback */
+  background-size: cover;
+  padding-top: 160px;
+  padding-bottom: var(--section-padding);
+  min-height: 500px; /* Altura mínima para visibilidade */
+}
+
   
   .movie-detail::after {
     content: "";
@@ -733,13 +734,32 @@
   cursor: pointer;
   font-size: 30px;
   color: var(--gray-x);
-  transition: color var(--transition-1);
+  position: relative;
+  transition: color 0.2s ease-in-out;
 }
 
+/* Cor ao passar o mouse */
 .stars .star:hover,
+.stars .star.hover {
+  color: var(--citrine);
+}
+
+/* Meia estrela */
+.stars .star.half:before {
+  content: '★';
+  position: absolute;
+  color: var(--citrine);
+  left: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+/* Cor ao clicar */
 .stars .star.active {
   color: var(--citrine);
 }
+
+
 
 .review-input {
   width: 100%;
