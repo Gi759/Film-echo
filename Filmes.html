@@ -138,7 +138,7 @@
     }
   
     // Requisição para pegar os filmes populares da semana
-    fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}&language=pt-BR&region=BR`)
+    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=pt-BR&region=BR`)
       .then(response => response.json())
       .then(data => {
         movies = data.results.slice(0, 10); // Mostrando 10 filmes populares
@@ -167,7 +167,32 @@
                   <!-- Gêneros serão preenchidos dinamicamente -->
                 </ul>
               </div>
-      
+              <div class="filter-bar">
+                <label for="year-select">Ano de Lançamento:</label>
+                <select id="year-select">
+                  <!-- Opções de anos serão geradas dinamicamente -->
+                </select>
+              
+                <label for="rating-select">Classificação Indicativa:</label>
+                <select id="rating-select">
+                  <option value="all">Todas</option>
+                  <option value="G">Livre</option>
+                  <option value="PG">+10</option>
+                  <option value="PG-13">+13</option>
+                  <option value="R">+16</option>
+                  <option value="NC-17">+18</option>
+                </select>
+              
+                <label for="cinema-select">Disponível no Cinema:</label>
+                <select id="cinema-select">
+                  <option value="all">Todos</option>
+                  <option value="true">Sim</option>
+                  <option value="false">Não</option>
+                </select>
+              
+                <input type="text" id="search-bar" placeholder="Pesquisar filmes...">
+              </div>
+              
               <!-- Grade de Filmes -->
               <div class="movies-grid" id="movies-grid">
                 <!-- Os filmes serão carregados dinamicamente -->
@@ -190,7 +215,78 @@
     const genreList = document.getElementById('genre-list');
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const loadMoreBtn = document.createElement('button'); // Botão "Carregar Mais"
-  
+    const yearSelect = document.getElementById('year-select');
+const ratingSelect = document.getElementById('rating-select');
+const cinemaSelect = document.getElementById('cinema-select');
+const searchBar = document.getElementById('search-bar');
+
+// Preencher os anos dinamicamente (de 10 em 10 anos)
+function populateYearOptions() {
+  const currentYear = new Date().getFullYear();
+  for (let year = currentYear; year >= 1900; year -= 10) {
+    const option = document.createElement('option');
+    option.value = year;
+    option.textContent = `${year}-${year + 9}`;
+    yearSelect.appendChild(option);
+  }
+}
+
+// Atualizar os filtros ao mudar os valores
+[yearSelect, ratingSelect, cinemaSelect, searchBar].forEach((filter) => {
+  filter.addEventListener('change', () => {
+    currentPage = 1; // Reiniciar paginação
+    fetchMovies(); // Atualizar os filmes
+  });
+});
+
+// Atualizar o endpoint com os novos filtros
+async function fetchMovies() {
+  try {
+    let endpoint = `${apiBaseURL}/discover/movie?api_key=${apiKey}&language=pt-BR&page=${currentPage}`;
+
+    // Filtros: ano, classificação e disponibilidade no cinema
+    const selectedYear = yearSelect.value;
+    const selectedRating = ratingSelect.value;
+    const inCinema = cinemaSelect.value;
+
+    if (selectedYear !== 'all') {
+      const [startYear, endYear] = selectedYear.split('-');
+      endpoint += `&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31`;
+    }
+
+    if (selectedRating !== 'all') {
+      endpoint += `&certification_country=BR&certification=${selectedRating}`;
+    }
+
+    if (inCinema !== 'all') {
+      endpoint += `&with_release_type=${inCinema === 'true' ? '3|2' : '1'}`; // 3|2 = cinema, 1 = outros
+    }
+
+    // Pesquisa por texto
+    const searchQuery = searchBar.value.trim();
+    if (searchQuery) {
+      endpoint = `${apiBaseURL}/search/movie?api_key=${apiKey}&language=pt-BR&page=${currentPage}&query=${searchQuery}`;
+    }
+
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    totalPages = data.total_pages;
+
+    displayMovies(data.results);
+
+    // Atualizar o botão "Carregar Mais"
+    if (currentPage < totalPages) {
+      if (!document.body.contains(loadMoreBtn)) {
+        moviesGrid.parentElement.appendChild(loadMoreBtn);
+      }
+    } else {
+      loadMoreBtn.remove();
+    }
+  } catch (error) {
+    console.error('Erro ao buscar os filmes:', error);
+  }
+}
+
     // Variáveis de controle
     let currentPage = 1; // Página inicial
     let totalPages = 0; // Total de páginas disponíveis
@@ -354,7 +450,7 @@ function displayMovies(movies) {
 <!-- 
   - custom js link
 -->
-<script src="./assets/js/script.js"></script>
+<script src="./assets/js/Filmes.js"></script>
 
 <!-- 
   - ionicon link
