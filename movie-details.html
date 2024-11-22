@@ -53,11 +53,9 @@
       </nav>
     </div>
   </header>
-  
- 
   <main>
     <article>
-      <section class="movie-detail" id="movie-detail">
+      <section class="movie-detail">
         <div class="container">
           <figure class="movie-detail-banner">
             <img src="" alt="Poster do filme" />
@@ -66,13 +64,19 @@
             </button>
           </figure>
           <div class="movie-detail-content">
-            <h1 class="h1 detail-title"></h1>
+            <div class="title-wrapper">
+              <h1 class="h1 detail-title">Título do Filme</h1>
+              <button class="favorite-btn" onclick="toggleFavorite(this)">
+                <ion-icon name="heart-outline"></ion-icon>
+              </button>
+            </div>
             <div class="meta-wrapper">
               <div class="badge-wrapper">
                 <div class="badge badge-fill classification"></div>
                 <div class="badge badge-outline">HD</div>
               </div>
-              <div class="ganre-wrapper"></div>
+              <div class="ganre-wrapper">
+              </div>
               <div class="date-time">
                 <div>
                   <ion-icon name="calendar-outline"></ion-icon>
@@ -84,8 +88,12 @@
                 </div>
               </div>
             </div>
-            <p class="storyline"></p>
+            <p class="storyline">Sinopse do filme...</p>
             <div class="details-actions">
+              <button class="share">
+                <ion-icon name="share-social"></ion-icon>
+                <span>Compartilhar</span>
+              </button>
               <div class="title-wrapper streaming-info"></div>
               <button class="btn btn-primary">
                 <ion-icon name="play"></ion-icon>
@@ -97,7 +105,23 @@
       </section>
     </article>
   </main>
-
+  
+  <section class="rating-section">
+    <div class="container">
+      <h2 class="h2 section-title">Avaliações</h2>
+      <label for="rating">Dê sua avaliação:</label>
+      <div class="stars" id="rating">
+        <button class="star" data-value="1">&#9733;</button>
+        <button class="star" data-value="2">&#9733;</button>
+        <button class="star" data-value="3">&#9733;</button>
+        <button class="star" data-value="4">&#9733;</button>
+        <button class="star" data-value="5">&#9733;</button>
+      </div>
+      <textarea placeholder="Escreva sua opinião..." class="review-input"></textarea>
+      <button class="btn btn-primary">Enviar Avaliação</button>
+    </div>
+  </section>
+  
   <footer class="footer">
     <div class="footer-top">
       <div class="container">
