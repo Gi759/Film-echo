@@ -19,13 +19,17 @@ function displayMovieDetails(movie, providers) {
   document.querySelector('.detail-title').innerHTML = movie.title;
   document.querySelector('.storyline').innerHTML = movie.overview;
   document.querySelector('.release-date').innerHTML = new Date(movie.release_date).toLocaleDateString('pt-BR');
-  document.querySelector('.runtime').innerHTML = `${movie.runtime} minutos`;
-  document.querySelector('.classification').innerHTML = (() => {
-    const brazilRelease = movie.release_dates?.results?.find(({ iso_3166_1 }) => iso_3166_1 === "BR");
-    const classification = brazilRelease?.release_dates?.find(({ certification }) => certification)?.certification;
-    return classification || (movie.adult ? "18+" : "Livre");
-  })();
+  document.querySelector('.runtime').innerHTML = movie.runtime + " minutos";
+
+  const classificationElement = document.querySelector('.classification');
   
+  if (movie.adult !== undefined) {
+    classificationElement.innerHTML = movie.adult ? "18+" : "Livre";
+    classificationElement.className = movie.adult ? "badge badge-fill adult" : "badge badge-fill all-ages";
+  } else {
+    classificationElement.innerHTML = "Classificação não disponível";
+    classificationElement.className = "badge badge-fill unknown";
+  }
 
   const genresContainer = document.querySelector('.ganre-wrapper');
   movie.genres.forEach(genre => {
@@ -34,11 +38,9 @@ function displayMovieDetails(movie, providers) {
     genreElement.textContent = genre.name;
     genresContainer.appendChild(genreElement);
   });
- 
-  
-  const movieBanner = document.querySelector('.poster-front');
-  movieBanner.src = `https://image.tmdb.org/t/p/original/${movie.poster_path}`;
-  movieBanner.alt = `Poster de ${movie.title}`;
+
+  const movieBanner = document.querySelector('.movie-detail-banner img');
+  movieBanner.src = `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`;
 
   const streamingInfo = document.querySelector('.streaming-info');
   streamingInfo.innerHTML = "";
@@ -48,12 +50,23 @@ function displayMovieDetails(movie, providers) {
   } else {
     streamingInfo.innerHTML = "<p class='text'>Sem informações de streaming disponíveis.</p>";
   }
-
-  // Atualizar o background da seção
-  const movieDetailSection = document.getElementById('movie-detail');
-  movieDetailSection.style.backgroundImage = `url('https://image.tmdb.org/t/p/original/${movie.backdrop_path}')`;
-  movieDetailSection.style.backgroundSize = 'cover';
-  movieDetailSection.style.backgroundPosition = 'center';
 }
 
 fetchMovieDetails();
+// Favoritar filme
+function toggleFavorite(button) {
+  button.classList.toggle("active");
+  const icon = button.querySelector("ion-icon");
+  icon.name = button.classList.contains("active") ? "heart" : "heart-outline";
+}
+
+// Estrelas de avaliação
+document.querySelectorAll(".stars .star").forEach(star => {
+  star.addEventListener("click", function () {
+    const value = this.dataset.value;
+    document.querySelectorAll(".stars .star").forEach(s => {
+      s.classList.remove("active");
+      if (s.dataset.value <= value) s.classList.add("active");
+    });
+  });
+});
