@@ -672,14 +672,92 @@
     letter-spacing: 5px;
     border-radius: 6px;
   }
+
   
-  .download-btn ion-icon {
-    font-size: 16px;
-  }
+  /*-----------------------------------*\
+   * #RATING
+  \*-----------------------------------*/
   
  
  
- 
+ /* FAVORITE BUTTON */
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaço entre título e coração */
+}
+
+.favorite-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--gainsboro);
+  transition: color var(--transition-1);
+}
+
+.favorite-btn.active ion-icon {
+  color: var(--citrine); /* Cor do coração ao ser ativado */
+}
+
+/* RATING SECTION */
+.rating-section {
+  background: var(--gunmetal-2);
+  padding: 50px 15px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.rating-section .container {
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+.rating-section label {
+  display: block;
+  color: var(--white);
+  font-size: var(--fs-7);
+  margin-bottom: 15px;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stars .star {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 30px;
+  color: var(--gray-x);
+  transition: color var(--transition-1);
+}
+
+.stars .star:hover,
+.stars .star.active {
+  color: var(--citrine);
+}
+
+.review-input {
+  width: 100%;
+  height: 100px;
+  padding: 15px;
+  border: 1px solid var(--jet);
+  border-radius: 6px;
+  background: var(--eerie-black);
+  color: var(--white);
+  font-size: var(--fs-8);
+  margin-bottom: 20px;
+  resize: none;
+}
+
+.review-input::placeholder {
+  color: var(--gray-x);
+}
+
   
   
   /*-----------------------------------*\
