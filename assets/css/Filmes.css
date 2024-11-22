@@ -715,7 +715,27 @@ body.active { overflow: hidden; }
 
 .filter-btn:hover {
   background-color: #FF4500; /* Vermelho */
+
 }
+
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-bar select,
+.filter-bar input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.filter-bar input {
+  flex-grow: 1;
+}
+
 /* Grade de filmes */
 .movies-grid {
   display: grid;
