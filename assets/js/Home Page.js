@@ -42,6 +42,31 @@ fetchMovies(upcomingMoviesURL, 'movies-list', true);
       }
     }
   
+    async function fetchMovies(url, containerId, filterFuture = false, pages = 1) {
+      try {
+        let allMovies = [];
+    
+        for (let page = 1; page <= pages; page++) {
+          const response = await fetch(`${url}&page=${page}`);
+          const data = await response.json();
+          allMovies = allMovies.concat(data.results);
+        }
+    
+        // Aplicar filtro para lançamentos futuros (se necessário)
+        if (filterFuture) {
+          allMovies = filterUpcomingMovies(allMovies);
+        }
+    
+        displayMovies(allMovies, containerId);
+      } catch (error) {
+        console.error('Erro ao buscar filmes:', error);
+      }
+    }
+    
+    // Buscar múltiplas páginas de filmes futuros
+    fetchMovies(upcomingMoviesURL, 'movies-list', true, 3); // Ajuste o número de páginas aqui
+    
+
     async function displayMovies(movies, containerId) {
       const container = document.getElementById(containerId);
       container.innerHTML = '';
