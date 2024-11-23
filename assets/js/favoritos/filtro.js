@@ -1,12 +1,13 @@
 import { listaDeFavoritos } from './main.js';
 import { apiKey } from './script.js';
 import { InserirFilmesNaTela } from './main.js';
-const filtroAtivo = document.getElementById('cabecalho__checkbox');
+//const filtroAtivo = document.getElementById('cabecalho__checkbox');
 
-filtroAtivo.addEventListener('change', getFilmesFavoritos);
+//filtroAtivo.addEventListener('change', getFilmesFavoritos);
 
 const inputPesquisa = document.querySelector('.search-input');
 const lupa = document.querySelector('.search-button');
+const moviesContainer = document.querySelector('.movies-list'); // Contêiner dos filmes
 lupa.addEventListener('click', pesquisarFilmes);
 
 function pesquisarFilmes() {
@@ -16,6 +17,7 @@ function pesquisarFilmes() {
         fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=pt-BR&query=${searchTerm}&page=1&include_adult=false`)
             .then(response => response.json())
             .then(data => {
+                console.log('Dados retornados da API:', data); // Verifique se os dados correspondem ao esperado
                 const movies = data.results; // Array de filmes correspondentes aos resultados da pesquisa
                 let movieIds = [];
                 let movieList = [];
@@ -30,6 +32,8 @@ function pesquisarFilmes() {
                     movieList = movies; // Define a lista de filmes como todos os filmes correspondentes
                 }
 
+                moviesContainer.innerHTML = '';
+
                 InserirFilmesNaTela(movieList);
             })
             .catch(error => {
@@ -40,36 +44,36 @@ function pesquisarFilmes() {
     }
 }
 
-async function getFilmesFavoritos() {
-    if (listaDeFavoritos.length === 0) {
-        document.getElementById('filmes').innerHTML = '';
-        document.querySelector('.card__lista-vazia').style.display = 'flex';
-    }
+//async function getFilmesFavoritos() {
+    //if (listaDeFavoritos.length === 0) {
+        //document.getElementById('filmes').innerHTML = '';
+        //document.querySelector('.card__lista-vazia').style.display = 'flex';
+    //}
 
-    if (filtroAtivo.checked) {
-        try {
-            const filmes = [];
-            for (const movieId of listaDeFavoritos) {
-                const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=pt-BR`);
-                const movie = await response.json();
-                filmes.push(movie);
-            }
-            InserirFilmesNaTela(filmes);
-            document.querySelectorAll('.cards').forEach(elemento => {
-                elemento.querySelector('.cards__parte2-checkbox').checked = true;
-            });
-        } catch (error) {
-            console.error('Ocorreu um erro ao obter detalhes dos filmes:', error);
-        }
-    } else {
-        document.querySelector('.card__lista-vazia').style.display = 'none';
-        try {
-            const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=pt-BR`);
-            const data = await response.json();
-            const movies = data.results.slice(0, 10);
-            InserirFilmesNaTela(movies);
-        } catch (error) {
-            console.error('Ocorreu um erro ao obter os filmes populares:', error);
-        }
-    }
-}
+    //if (filtroAtivo.checked) {
+        //try {
+            //const filmes = [];
+            //for (const movieId of listaDeFavoritos) {
+                //const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=pt-BR`);
+                //const movie = await response.json();
+                //filmes.push(movie);
+            //}
+            //InserirFilmesNaTela(filmes);
+            //document.querySelectorAll('.cards').forEach(elemento => {
+                //elemento.querySelector('.cards__parte2-checkbox').checked = true;
+            //});
+        //} catch (error) {
+            //console.error('Ocorreu um erro ao obter detalhes dos filmes:', error);
+        //}
+    //} else {
+        //document.querySelector('.card__lista-vazia').style.display = 'none';
+        //try {
+            //const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=pt-BR`);
+            //const data = await response.json();
+            //const movies = data.results.slice(0, 10);
+            //InserirFilmesNaTela(movies);
+        //} catch (error) {
+            //console.error('Ocorreu um erro ao obter os filmes populares:', error);
+        //}
+    //}
+//}
