@@ -1,9 +1,9 @@
 import { InserirFilmesNaTela } from "./main.js";
+import { searchTerm, isSearching } from "./filtro.js";
 
 export const apiKey = '9bbf7d734588f0a01ba0510c39e7e786';
-let searchTerm = ''; // Termo de pesquisa atual
-let currentPage = 1; // Página atual
-let isSearching = false; // Indica se está em modo de pesquisa
+export let currentPage = 1; // Página inicial
+
 
 // Função para carregar filmes populares
 function carregarMaisFilmesPopulares() {

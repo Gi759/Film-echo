@@ -1,48 +1,41 @@
-import { listaDeFavoritos } from './main.js';
-import { apiKey } from './script.js';
 import { InserirFilmesNaTela } from './main.js';
+import { listaDeFavoritos } from './main.js';
+import { apiKey, currentPage } from './script.js';
+
 //const filtroAtivo = document.getElementById('cabecalho__checkbox');
 
 //filtroAtivo.addEventListener('change', getFilmesFavoritos);
 
 const inputPesquisa = document.querySelector('.search-input');
 const lupa = document.querySelector('.search-button');
-const moviesContainer = document.querySelector('.movies-list'); // Contêiner dos filmes
+const moviesContainer = document.querySelector('.movies-list');
+let searchTerm = ''; // Variável local de pesquisa
+let isSearching = false; // Variável de controle se está pesquisando
+
 lupa.addEventListener('click', pesquisarFilmes);
 
 function pesquisarFilmes() {
-    const searchTerm = inputPesquisa.value.trim(); // Obtém o valor do campo de pesquisa e remove espaços em branco no início e no final
+  searchTerm = inputPesquisa.value.trim(); // Define o termo de pesquisa
 
-    if (searchTerm !== '') {
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=pt-BR&query=${searchTerm}&page=1&include_adult=false`)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Dados retornados da API:', data); // Verifique se os dados correspondem ao esperado
-                const movies = data.results; // Array de filmes correspondentes aos resultados da pesquisa
-                let movieIds = [];
-                let movieList = [];
+  if (searchTerm !== '') {
+    isSearching = true; // Define que está em modo de pesquisa
 
-                const exactMatch = movies.find(movie => movie.title === searchTerm); // Verifica se há um filme com título exato
-
-                if (exactMatch) {
-                    movieIds.push(exactMatch.id); // Adiciona o ID do filme com título exato
-                    movieList.push(exactMatch); // Adiciona o filme à lista de filmes
-                } else {
-                    movieIds = movies.map(movie => movie.id); // Adiciona os IDs de todos os filmes correspondentes
-                    movieList = movies; // Define a lista de filmes como todos os filmes correspondentes
-                }
-
-                moviesContainer.innerHTML = '';
-
-                InserirFilmesNaTela(movieList);
-            })
-            .catch(error => {
-                console.error('Ocorreu um erro ao pesquisar filmes:', error);
-            });
-    } else {
-        console.log('Nenhum termo de pesquisa foi inserido.');
-    }
+    fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=pt-BR&query=${encodeURIComponent(searchTerm)}&page=${currentPage}&include_adult=false`)
+      .then(response => response.json())
+      .then(data => {
+        const filmes = data.results;
+        moviesContainer.innerHTML = ''; // Limpa os filmes anteriores
+        InserirFilmesNaTela(filmes); // Exibe os filmes da pesquisa
+      })
+      .catch(error => {
+        console.error('Erro ao pesquisar filmes:', error);
+      });
+  } else {
+    console.log('Nenhum termo de pesquisa foi inserido.');
+  }
 }
+
+export { searchTerm, isSearching};
 
 //async function getFilmesFavoritos() {
     //if (listaDeFavoritos.length === 0) {
