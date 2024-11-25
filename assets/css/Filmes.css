@@ -229,6 +229,23 @@ body.active { overflow: hidden; }
  * BUTTONS
  */
 
+ .heart-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #fff; /* Branco inicial */
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.heart-btn.active {
+  color: #ff4d4d; /* Vermelho ao favoritar */
+}
+
+.heart-btn:hover {
+  transform: scale(1.2);
+}
+
 .btn {
   color: var(--white);
   font-size: var(--fs-11);
