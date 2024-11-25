@@ -2,7 +2,6 @@ const apiKey = 'e8ad7288aafe45a2654c370953748b4a';
 const apiBaseURL = 'https://api.themoviedb.org/3';
 const imageBaseURL = 'https://image.tmdb.org/t/p/w500';
 
-
 // Elementos do DOM
 const movieCarousel = document.querySelector('.movie-carousel');
 const moviesGrid = document.getElementById('movies-grid');
@@ -113,9 +112,28 @@ function displayMovies(movies) {
         <img src="${imageBaseURL}${poster_path}" alt="${title}" class="movie-poster">
         <h3 class="titulo-movie">${title}</h3>
         <p class="movie-rating">TMDB ${vote_average}</p>
+        <button class="heart-btn" data-movie-id="${movie.id}" aria-label="Adicionar aos favoritos"></button>
       </div>
     `;
     moviesGrid.innerHTML += movieCard;
+  });
+
+  // Configurar os botões de coração
+  setupFavoriteButtons();
+}
+
+// Configurar os botões de coração
+function setupFavoriteButtons() {
+  const heartButtons = document.querySelectorAll('.heart-btn');
+
+  heartButtons.forEach(button => {
+    button.addEventListener('click', function () {
+      this.classList.toggle('active'); // Alterna a classe "active"
+
+      // Adicione lógica para salvar o estado do favorito (opcional)
+      const movieId = this.dataset.movieId;
+      console.log(`Filme ${movieId} foi ${this.classList.contains('active') ? 'adicionado aos favoritos' : 'removido dos favoritos'}`);
+    });
   });
 }
 
