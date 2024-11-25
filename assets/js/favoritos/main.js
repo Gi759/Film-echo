@@ -1,5 +1,5 @@
 const ElementoParaInserirFilmes = document.getElementById('filmes');
-export const listaDeFavoritos = [];
+
 
 function InserirFilmesNaTela(filmes) {
   const ElementoParaInserirFilmes = document.querySelector('.movies-list');

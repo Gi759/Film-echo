@@ -5,22 +5,9 @@ export const apiKey = '9bbf7d734588f0a01ba0510c39e7e786';
 export let currentPage = 1; // Página inicial
 
 
-// Função para carregar filmes populares
-function carregarMaisFilmesPopulares() {
-  fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=pt-BR&page=${currentPage}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erro ao conectar à API.');
-      }
-      return response.json();
-    })
-    .then(data => {
-      const filmes = data.results;
-      InserirFilmesNaTela(filmes); // Adiciona filmes ao DOM
-    })
-    .catch(error => {
-      console.error('Erro ao carregar filmes populares:', error);
-    });
+// Função para carregar filmes favoritos
+function carregarFilmesFavoritos() {
+  
 }
 
 // Função para carregar mais resultados da pesquisa

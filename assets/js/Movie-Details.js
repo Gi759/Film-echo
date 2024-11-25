@@ -1,5 +1,6 @@
 const apiKey = 'e8ad7288aafe45a2654c370953748b4a';
 const movieId = new URLSearchParams(window.location.search).get('id');
+export let listaDeFavoritos = [];
 
 async function fetchMovieDetails() {
   try {
@@ -67,6 +68,8 @@ function toggleFavorite(button) {
   const icon = button.querySelector("ion-icon");
   icon.name = button.classList.contains("active") ? "heart" : "heart-outline";
 }
+
+
 
 const stars = document.querySelectorAll(".stars .star");
 let rating = 0; // Valor atual da avaliação
