@@ -1,6 +1,5 @@
 const apiKey = 'e8ad7288aafe45a2654c370953748b4a';
 const movieId = new URLSearchParams(window.location.search).get('id');
-export let listaDeFavoritos = [];
 
 async function fetchMovieDetails() {
   try {
