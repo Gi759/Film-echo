@@ -391,6 +391,14 @@ function displayMovies(movies) {
         <img src="${imageBaseURL}${poster_path}" alt="${title}" class="movie-poster">
         <h3 class="titulo-movie">${title}</h3>
         <p class="movie-rating">TMDB ${vote_average}</p>
+  <div class="favorite-button">
+  <button class="heart-btn" aria-label="Adicionar aos favoritos">
+    ❤️
+  </button>
+</div>
+
+
+
       </div>
     `;
     moviesGrid.innerHTML += movieCard;
