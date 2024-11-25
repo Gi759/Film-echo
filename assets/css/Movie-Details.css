@@ -528,7 +528,7 @@
 
 .movie-detail {
   position: relative;
-  background: var(--gray-x) no-repeat center center; /* Cor de fallback */
+  background: var(--gunmetal-1) no-repeat center center; /* Cor de fallback */
   background-size: cover;
   padding-top: 160px;
   padding-bottom: var(--section-padding);
@@ -703,7 +703,7 @@
 
 /* RATING SECTION */
 .rating-section {
-  background: var(--gunmetal-2);
+  background: var(--eerie-black);
   padding: 50px 15px;
   margin-top: 30px;
   text-align: center;
@@ -767,7 +767,7 @@
   padding: 15px;
   border: 1px solid var(--jet);
   border-radius: 6px;
-  background: var(--eerie-black);
+  background: var(--black);
   color: var(--white);
   font-size: var(--fs-8);
   margin-bottom: 20px;
