@@ -76,13 +76,13 @@ fetchMovies(upcomingMoviesURL, 'movies-list', true);
         const movieCard = `
           <li>
             <div class="movie-card">
-              <a href="./movie-details.html?id=${movie.id}">
+              <a href="./movie-details.php?id=${movie.id}">
                 <figure class="card-banner">
                   <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
                 </figure>
               </a>
               <div class="title-wrapper">
-                <a href="./movie-details.html?id=${movie.id}" class="card-title">${movie.title}</a>
+                <a href="./movie-details.php?id=${movie.id}" class="card-title">${movie.title}</a>
                 <time datetime="${movie.release_date}">${new Date(movie.release_date).getFullYear()}</time>
               </div>
               <div class="card-meta">

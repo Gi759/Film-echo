@@ -140,7 +140,7 @@ include 'database/conexao_bd_mysql.php';
           <ul class="footer-list">
             <li><a href="./Home Page.html" class="footer-link">Inicio</a></li>
             <li><a href="./Filmes.html" class="footer-link">Filmes</a></li>
-            <li><a href="./Avaliações.html" class="footer-link">Avaliações</a></li>
+            <li><a href="./Avaliações.php" class="footer-link">Avaliações</a></li>
             <li><a href="./Favoritos.html" class="footer-link">Favoritos</a></li>
             <li><a href="./Criadores.html" class="footer-link">Criadores</a></li>
           </ul>

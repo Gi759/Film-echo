@@ -18,7 +18,7 @@ $conexao_servidor_bd = mysqli_connect($local_servidor, $usuario, $senha,  $bd_pr
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home Page Interdisciplinar</title>
+  <title>Avaliações</title>
 
   <!-- 
     - favicon
@@ -82,7 +82,7 @@ $conexao_servidor_bd = mysqli_connect($local_servidor, $usuario, $senha,  $bd_pr
         <ul class="navbar-list">
           <li><a href="./Home Page.html" class="navbar-link">Inicio</a></li>
           <li><a href="./Filmes.html" class="navbar-link">Filmes</a></li>
-          <li><a href="./Avaliações.html" class="navbar-link">Avaliações</a></li>
+          <li><a href="./Avaliações.php" class="navbar-link">Avaliações</a></li>
           <li><a href="./Favoritos.html" class="navbar-link">Favoritos</a></li>
           <li><a href="./Criadores.html" class="navbar-link">Criadores</a></li>
         </ul>
@@ -104,7 +104,7 @@ $conexao_servidor_bd = mysqli_connect($local_servidor, $usuario, $senha,  $bd_pr
         <ul class="footer-list">
           <li><a href="./Home Page.html" class="footer-link">Inicio</a></li>
           <li><a href="./Filmes.html" class="footer-link">Filmes</a></li>
-          <li><a href="./Avaliações.html" class="footer-link">Avaliações</a></li>
+          <li><a href="./Avaliações.php" class="footer-link">Avaliações</a></li>
           <li><a href="./Favoritos.html" class="footer-link">Favoritos</a></li>
           <li><a href="./Criadores.html" class="footer-link">Criadores</a></li>
         </ul>
