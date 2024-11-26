@@ -48,8 +48,8 @@ include 'database/conexao_bd_mysql.php';
             <ion-icon name="close-outline"></ion-icon>
           </button>
         </div>
-        <ul class="navbar-list">
-          <li><a href="./Home Page.php" class="navbar-link">Inicio</a></li>
+      <ul class="navbar-list">
+          <li><a href="./Home Page.html" class="navbar-link">Inicio</a></li>
           <li><a href="./Filmes.html" class="navbar-link">Filmes</a></li>
           <li><a href="./Avaliações.php" class="navbar-link">Avaliações</a></li>
           <li><a href="./Favoritos.html" class="navbar-link">Favoritos</a></li>
