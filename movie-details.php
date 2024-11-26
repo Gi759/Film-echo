@@ -1,3 +1,8 @@
+<?php
+// Código ponte reutilizado
+include 'database/conexao_bd_mysql.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -44,9 +49,9 @@
           </button>
         </div>
         <ul class="navbar-list">
-          <li><a href="./Home Page.html" class="navbar-link">Inicio</a></li>
+          <li><a href="./Home Page.php" class="navbar-link">Inicio</a></li>
           <li><a href="./Filmes.html" class="navbar-link">Filmes</a></li>
-          <li><a href="./Avaliações.html" class="navbar-link">Avaliações</a></li>
+          <li><a href="./Avaliações.php" class="navbar-link">Avaliações</a></li>
           <li><a href="./Favoritos.html" class="navbar-link">Favoritos</a></li>
           <li><a href="./Criadores.html" class="navbar-link">Criadores</a></li>
         </ul>
