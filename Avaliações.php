@@ -1,6 +1,6 @@
 <?php
 
-$local_servidor = "localhost"; // Apenas "localhost"
+$local_servidor = "localhost";
 $bd_procurado = "bd_inter";
 
 $usuario = "root";
@@ -13,7 +13,16 @@ if (!$conexao_servidor_bd) {
     die("Conexão falhou: " . mysqli_connect_error());
 }
 
-// Operações no banco de dados
+// Função para buscar os filmes avaliados
+$sql_buscar = "SELECT * FROM tb_filmes";
+$resultado_filmes = mysqli_query($conexao_servidor_bd, $sql_buscar);
+
+$filmes = [];
+if ($resultado_filmes && mysqli_num_rows($resultado_filmes) > 0) {
+    while ($linha = mysqli_fetch_assoc($resultado_filmes)) {
+        $filmes[] = $linha;
+    }
+}
 
 // Fechando a conexão
 mysqli_close($conexao_servidor_bd);
@@ -28,20 +37,8 @@ mysqli_close($conexao_servidor_bd);
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Avaliações</title>
-
-  <!-- 
-    - favicon
-  -->
-  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
-
-  <!-- 
-    - custom css link
-  -->
+  <!-- CSS e Fontes -->
   <link rel="stylesheet" href="./assets/css/Home Page.css">
-
-  <!-- 
-    - google font link
-  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -50,103 +47,72 @@ mysqli_close($conexao_servidor_bd);
 <body id="top">
   <header class="header" data-header>
     <div class="container">
-
-      <div class="overlay" data-overlay></div>
-
-      <a href="./Home Page.html" class="logo">
-        <img src="assets/images/logoo.png" alt="Film Echo logo">
-      </a>      
-      
-
-      <div class="header-actions">
-        <button class="search-btn">
-          <ion-icon name="search-outline"></ion-icon>
-        </button>
-        <div class="lang-wrapper">
-          <label for="language">
-            <ion-icon name="globe-outline"></ion-icon>
-          </label>
-          <select name="language" id="language">
-            <option value="en">Pt-Br</option>
-          </select>
-        </div>
-
-        <button class="btn btn-primary" onclick="window.location.href = './Pagina de Login.html';">Entrar</button>
-      </div>
-
-      <button class="menu-open-btn" data-menu-open-btn>
-        <ion-icon name="reorder-two"></ion-icon>
-      </button>
-
-      <nav class="navbar" data-navbar>
-        <div class="navbar-top">
-          <a href="./Home Page.html" class="logo">
-            <img src="./assets/images/logoo.png" alt="Film Echo logo">
-          </a>
-          <button class="menu-close-btn" data-menu-close-btn>
-            <ion-icon name="close-outline"></ion-icon>
-          </button>
-        </div>
-
-        <ul class="navbar-list">
-          <li><a href="./Home Page.html" class="navbar-link">Inicio</a></li>
-          <li><a href="./Filmes.html" class="navbar-link">Filmes</a></li>
-          <li><a href="./Avaliações.php" class="navbar-link">Avaliações</a></li>
-          <li><a href="./Favoritos.html" class="navbar-link">Favoritos</a></li>
-          <li><a href="./Criadores.html" class="navbar-link">Criadores</a></li>
-        </ul>
-      </nav>
+      <!-- Cabeçalho e navegação -->
     </div>
   </header>
 
-<!-- 
-  - #FOOTER
--->
-
-<footer class="footer">
-  <div class="footer-top">
-    <div class="container">
-      <div class="footer-brand-wrapper">
-        <a href="./Home Page.html" class="logooo">
-          <img src="./assets/images/logooo.png" alt="Film Echo logo">
-        </a>        
-        <ul class="footer-list">
-          <li><a href="./Home Page.html" class="footer-link">Inicio</a></li>
-          <li><a href="./Filmes.html" class="footer-link">Filmes</a></li>
-          <li><a href="./Avaliações.php" class="footer-link">Avaliações</a></li>
-          <li><a href="./Favoritos.html" class="footer-link">Favoritos</a></li>
-          <li><a href="./Criadores.html" class="footer-link">Criadores</a></li>
-        </ul>
-      </div>
+  <main>
+    <h1>Avaliações de Filmes</h1>
+    <!-- Exibir avaliações dinâmicas -->
+    <div class="avaliacoes">
+      <?php if (!empty($filmes)): ?>
+        <?php foreach ($filmes as $filme): ?>
+          <div class="filme">
+            <h2><?php echo htmlspecialchars($filme['filme_titulo']); ?></h2>
+            <img src="<?php echo htmlspecialchars($filme['filme_poster']); ?>" alt="Poster de <?php echo htmlspecialchars($filme['filme_titulo']); ?>">
+            <p><strong>Estrelas:</strong> <?php echo $filme['filme_estrelas']; ?></p>
+            <p><?php echo htmlspecialchars($filme['filme_comentarios']); ?></p>
+          </div>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <p>Nenhum filme avaliado ainda.</p>
+      <?php endif; ?>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="container">
-      <p class="copyright">&copy; 2024 <a href="#">2° DS</a>. All Rights Reserved</p>
-    </div>
-  </div>
-</footer>
 
+    <!-- Formulário para adicionar avaliações -->
+    <form action="Avaliações.php" method="post">
+      <h2>Adicionar Avaliação</h2>
+      <label for="titulo">Título do Filme:</label>
+      <input type="text" name="titulo" id="titulo" required>
+      
+      <label for="poster">URL do Poster:</label>
+      <input type="url" name="poster" id="poster" required>
+      
+      <label for="estrelas">Avaliação (1-5 estrelas):</label>
+      <input type="number" name="estrelas" id="estrelas" min="1" max="5" required>
+      
+      <label for="comentarios">Comentários:</label>
+      <textarea name="comentarios" id="comentarios" rows="4" required></textarea>
+      
+      <button type="submit">Enviar Avaliação</button>
+    </form>
+  </main>
 
-<!-- 
-  - #GO TO TOP
--->
-
-<a href="#top" class="go-top" data-go-top>
-  <ion-icon name="chevron-up"></ion-icon>
-</a>
-
-<!-- 
-  - custom js link
--->
-<script src="./assets/js/script.js"></script>
-
-<!-- 
-  - ionicon link
--->
-<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
+  <footer class="footer">
+    <!-- Rodapé -->
+  </footer>
 </body>
 
 </html>
+
+<?php
+// Inserir avaliação (se houver POST)
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $titulo = $_POST['titulo'];
+    $poster = $_POST['poster'];
+    $estrelas = (int) $_POST['estrelas'];
+    $comentarios = $_POST['comentarios'];
+
+    $conexao_servidor_bd = mysqli_connect($local_servidor, $usuario, $senha, $bd_procurado, 3306);
+    if (!$conexao_servidor_bd) {
+        die("Conexão falhou: " . mysqli_connect_error());
+    }
+
+    $sql_inserir = "INSERT INTO tb_filmes (filme_titulo, filme_poster, filme_estrelas, filme_comentarios) VALUES (?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conexao_servidor_bd, $sql_inserir);
+    mysqli_stmt_bind_param($stmt, "ssis", $titulo, $poster, $estrelas, $comentarios);
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo "<script>alert('Avaliação adicionada com sucesso!');</script>";
+    } else {
+        echo "<script>alert('Erro
