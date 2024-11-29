@@ -39,10 +39,7 @@
     button.addEventListener('click', () => {
       lists[index].classList.toggle('hidden'); // Mostrar/ocultar o menu correspondente
 
-      // Alternar visibilidade do menu hambúrguer de categorias
-hamburgerBtn.addEventListener('click', () => {
-  genreList.classList.toggle('hidden'); // Alterna entre mostrar/ocultar
-});
+      
 
     });
   });
