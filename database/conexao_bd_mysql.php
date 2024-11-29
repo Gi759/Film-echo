@@ -1,17 +1,20 @@
-DROP DATABASE IF EXISTS `film_echo`;
+<?php
 
-CREATE DATABASE IF NOT EXISTS `film_echo` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `film_echo`;
+// Variáveis
+$hostname = "localhost";
+$bancodedados = "film_echo";
+$usuario = "root";
+$senha = "";
 
--- --------------------------------------------------------
+// Conexão ao banco de dados
+$mysqli = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
--- Estrutura para tabela `tb_avaliacoes`
+// Tela de Erro/Conexão
+if ($mysqli->connect_errno) {
+    die("Falha na Conexão: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
+}
+// Mensagem opcional de sucesso (removida para evitar exibição desnecessária em produção)
 
-CREATE TABLE `tb_avaliacoes` (
-  `id_avaliacao` INT(10) NOT NULL AUTO_INCREMENT,
-  `poster_filme` VARCHAR(255) NOT NULL,
-  `nome_filme` VARCHAR(100) NOT NULL,
-  `avaliacao_texto` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `avaliacao_estrelas` DECIMAL(2,1) DEFAULT 0 CHECK (`avaliacao_estrelas` BETWEEN 0 AND 5),
-  PRIMARY KEY (`id_avaliacao`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+// Nota: O fechamento da conexão é gerenciado no script que utiliza este arquivo.
+?>
+
