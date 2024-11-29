@@ -1,29 +1,98 @@
-const apiKey = 'e8ad7288aafe45a2654c370953748b4a';
-const apiBaseURL = 'https://api.themoviedb.org/3';
-const imageBaseURL = 'https://image.tmdb.org/t/p/w500';
+(() => {
+  const apiBaseURL = 'https://api.themoviedb.org/3';
+  const imageBaseURL = 'https://image.tmdb.org/t/p/w500';
 
-// Elementos do DOM
-const movieCarousel = document.querySelector('.movie-carousel');
-const moviesGrid = document.getElementById('movies-grid');
-const genreList = document.getElementById('genre-list');
-const hamburgerBtn = document.getElementById('hamburger-btn');
+  // Elementos do DOM
+  const moviesGrid = document.getElementById('movies-grid');
+  const genreList = document.getElementById('genre-list');
+  const yearHamburger = document.getElementById('year-hamburger');
+  const yearList = document.getElementById('year-list');
+  const ratingHamburger = document.getElementById('rating-hamburger');
+  const ratingList = document.getElementById('rating-list');
+  const cinemaHamburger = document.getElementById('cinema-hamburger');
+  const cinemaList = document.getElementById('cinema-list');
+  const loadMoreBtn = document.createElement('button'); // Botão "Carregar Mais"
 
-// Variáveis de controle
-let currentPage = 1; // Página inicial
-let totalPages = 0; // Total de páginas disponíveis
-let currentGenre = 'all'; // Gênero atual (todos os filmes)
-let movies = []; // Armazena os filmes populares
-let currentMovieIndex = 0; // Controle do índice para o carrossel de filmes
+  // Estado do aplicativo
+  const appState = {
+    currentPage: 1,
+    totalPages: 0,
+    currentGenre: 'all',
+    currentYear: 'all',
+    currentRating: 'all',
+    currentCinema: 'all',
+  };
 
-// Configurar o botão "Carregar Mais"
-const loadMoreBtn = document.createElement('button');
-loadMoreBtn.textContent = 'Carregar Mais';
-loadMoreBtn.classList.add('filter-btn');
-loadMoreBtn.addEventListener('click', () => {
-  currentPage++;
-  fetchMovies(); // Carregar próxima página de filmes
+  // Preencher os anos dinamicamente (de 10 em 10 anos)
+  function populateYearOptions() {
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear; year >= 1900; year -= 10) {
+      const listItem = document.createElement('li');
+      listItem.innerHTML = `<button class="filter-btn" data-year="${year}-${year + 9}">${year}-${year + 9}</button>`;
+      yearList.appendChild(listItem);
+    }
+  }
+
+  // Alternar visibilidade dos menus
+  [yearHamburger, ratingHamburger, cinemaHamburger].forEach((button, index) => {
+    const lists = [yearList, ratingList, cinemaList];
+    button.addEventListener('click', () => {
+      lists[index].classList.toggle('hidden'); // Mostrar/ocultar o menu correspondente
+
+      // Alternar visibilidade do menu hambúrguer de categorias
+hamburgerBtn.addEventListener('click', () => {
+  genreList.classList.toggle('hidden'); // Alterna entre mostrar/ocultar
 });
 
+    });
+  });
+
+  // Obter gêneros de filmes da API do TMDB
+async function fetchGenres() {
+  try {
+    const response = await fetch(`${apiBaseURL}/genre/movie/list?api_key=${apiKey}&language=pt-BR`);
+    const data = await response.json();
+
+    // Exibir os gêneros no menu
+    displayGenres(data.genres);
+  } catch (error) {
+    console.error('Erro ao buscar gêneros:', error);
+  }
+}
+
+// Exibir gêneros no menu hambúrguer
+function displayGenres(genres) {
+  genreList.innerHTML = ''; // Limpar lista anterior
+  genres.forEach(genre => {
+    const genreItem = document.createElement('li');
+    genreItem.innerHTML = `<button class="filter-btn" data-genre="${genre.id}">${genre.name}</button>`;
+    genreList.appendChild(genreItem);
+
+    // Adicionar evento de clique para filtrar por gênero
+    genreItem.querySelector('button').addEventListener('click', () => {
+      appState.currentGenre = genre.id; // Atualiza o gênero atual
+      appState.currentPage = 1; // Reinicia a páginação
+      fetchMovies(); // Carrega filmes do gênero selecionado
+      genreList.classList.add('hidden'); // Fecha o menu após clicar
+    });
+  });
+}
+
+  // Função para atualizar os filtros e buscar os filmes
+  function applyFilter(filterType, value) {
+    appState.currentPage = 1; // Reiniciar a paginação
+
+    if (filterType === 'year') {
+      appState.currentYear = value;
+    } else if (filterType === 'rating') {
+      appState.currentRating = value;
+    } else if (filterType === 'cinema') {
+      appState.currentCinema = value;
+    }
+
+    fetchMovies(); // Atualizar os filmes na grade
+
+    
 // Alternar visibilidade do menu hambúrguer
 hamburgerBtn.addEventListener('click', () => {
   genreList.classList.toggle('hidden');
@@ -39,7 +108,9 @@ async function fetchGenres() {
     console.error('Erro ao buscar gêneros:', error);
   }
 }
+  }
 
+  
 // Exibir gêneros no menu hambúrguer
 function displayGenres(genres) {
   genres.forEach(genre => {
@@ -56,128 +127,204 @@ function displayGenres(genres) {
     });
   });
 }
+  // Adicionar eventos de clique aos filtros dinâmicos
+  function addFilterEvents() {
+    document.querySelectorAll('#year-list .filter-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        applyFilter('year', btn.dataset.year);
+        yearList.classList.add('hidden'); // Fechar o menu
+      });
+    });
 
-// Função para buscar filmes
-async function fetchMovies() {
+ // Adicionar eventos para os filtros de classificação indicativa
+document.querySelectorAll('#rating-list .filter-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    applyFilter('rating', btn.dataset.rating);
+    ratingList.classList.add('hidden'); // Fechar o menu após clicar
+  });
+});
+
+
+    document.querySelectorAll('#cinema-list .filter-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        applyFilter('cinema', btn.dataset.cinema);
+        cinemaList.classList.add('hidden'); // Fechar o menu
+      });
+    });
+  }
+
+  // Buscar filmes da API
+  async function fetchMovies() {
+    try {
+      let endpoint = `${apiBaseURL}/discover/movie?api_key=${apiKey}&language=pt-BR&page=${appState.currentPage}`;
+  
+
+      // Filtros: ano, classificação etária e disponibilidade no cinema
+
+          // Aplicar filtros
+    if (appState.currentGenre !== 'all') {
+      endpoint += `&with_genres=${appState.currentGenre}`;
+    }
+      if (appState.currentYear !== 'all') {
+        const [startYear, endYear] = appState.currentYear.split('-');
+        endpoint += `&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31`;
+      }
+      if (appState.currentRating !== 'all') {
+        endpoint += `&certification_country=BR&certification=${appState.currentRating}`;
+      }
+      if (appState.currentCinema !== 'all') {
+        endpoint += `&with_release_type=${appState.currentCinema === 'true' ? '3|2' : '1'}`;
+      }
+  
+      console.log('Fetching movies from endpoint:', endpoint);
+  
+      const response = await fetch(endpoint);
+      const data = await response.json();
+      appState.totalPages = data.total_pages;
+  
+      displayMovies(data.results);
+  
+      // Atualizar o botão "Carregar Mais"
+      if (appState.currentPage < appState.totalPages) {
+        if (!document.body.contains(loadMoreBtn)) {
+          moviesGrid.parentElement.appendChild(loadMoreBtn);
+        }
+      } else {
+        loadMoreBtn.remove();
+      }
+    } catch (error) {
+      console.error('Erro ao buscar os filmes:', error);
+    }
+  }
+  
+
+  // Exibir os filmes na grade
+  function displayMovies(movies) {
+    if (appState.currentPage === 1) moviesGrid.innerHTML = ''; // Limpa a grade
+
+    movies.forEach((movie) => {
+      const { title, poster_path, vote_average } = movie;
+      const movieCard = `
+        <div class="movie-card">
+          <img src="${imageBaseURL}${poster_path}" alt="${title}" class="movie-poster">
+          <h3 class="titulo-movie">${title}</h3>
+          <p class="movie-rating">TMDB ${vote_average}</p>
+        </div>
+      `;
+      moviesGrid.innerHTML += movieCard;
+    });
+  }
+
+  // Configurar o botão "Carregar Mais"
+  loadMoreBtn.textContent = 'Carregar Mais';
+  loadMoreBtn.classList.add('filter-btn');
+  loadMoreBtn.addEventListener('click', () => {
+    appState.currentPage++;
+    fetchMovies();
+  });
+
+  // Elemento da barra de pesquisa
+const searchBar = document.getElementById('search-bar');
+
+// Adicionar evento para capturar texto e realizar busca
+searchBar.addEventListener('input', debounce(handleSearch, 500)); // Usa debounce para evitar chamadas excessivas
+
+// Função para lidar com a pesquisa
+function handleSearch() {
+  const query = searchBar.value.trim();
+
+  if (query.length === 0) {
+    // Se a barra de pesquisa estiver vazia, carregue os filmes iniciais
+    appState.currentPage = 1;
+    appState.currentGenre = 'all';
+    appState.currentYear = 'all';
+    appState.currentRating = 'all';
+    appState.currentCinema = 'all';
+    fetchMovies();
+    return;
+  }
+
+  searchMovies(query); // Buscar filmes com base no texto
+}
+
+// Função para buscar filmes pelo nome
+async function searchMovies(query) {
   try {
-    const endpoint = currentGenre === 'all'
-      ? `${apiBaseURL}/discover/movie?api_key=${apiKey}&language=pt-BR&page=${currentPage}`
-      : `${apiBaseURL}/discover/movie?api_key=${apiKey}&language=pt-BR&page=${currentPage}&with_genres=${currentGenre}`;
+    const endpoint = `${apiBaseURL}/search/movie?api_key=${apiKey}&language=pt-BR&query=${encodeURIComponent(query)}&page=${appState.currentPage}`;
+
+    console.log('Fetching search results from endpoint:', endpoint);
 
     const response = await fetch(endpoint);
     const data = await response.json();
-    totalPages = data.total_pages; // Atualiza o total de páginas disponíveis
 
-    // Atualizar e exibir os filmes na tela
-    displayMovies(data.results);
-
-    // Adicionar ou remover o botão "Carregar Mais"
-    if (currentPage < totalPages) {
-      if (!document.body.contains(loadMoreBtn)) {
-        moviesGrid.parentElement.appendChild(loadMoreBtn);
-      }
+    if (data.results.length > 0) {
+      displayMovies(data.results); // Exibir os filmes encontrados
     } else {
-      loadMoreBtn.remove();
+      moviesGrid.innerHTML = `<p class="no-results">Nenhum filme encontrado para "${query}".</p>`;
     }
   } catch (error) {
-    console.error('Erro ao buscar os filmes:', error);
+    console.error('Erro ao buscar filmes:', error);
   }
 }
 
-// Exibir os filmes na grade
+// Função debounce para evitar chamadas frequentes
+function debounce(func, delay) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+}
 function displayMovies(movies) {
-  if (currentPage === 1) moviesGrid.innerHTML = ''; // Limpa os filmes da página anterior
+  moviesGrid.innerHTML = ''; // Limpa os resultados anteriores
 
-  // Ordenar os filmes por título
-  const sortedMovies = movies.sort((a, b) => {
-    const titleA = a.title || ''; // Caso o título seja indefinido
-    const titleB = b.title || '';
+  if (movies.length === 0) {
+    moviesGrid.innerHTML = '<p class="no-results">Nenhum filme encontrado.</p>';
+    return;
+  }
 
-    // Priorizar símbolos e números
-    const isSpecialA = /^[^a-zA-Z]/.test(titleA);
-    const isSpecialB = /^[^a-zA-Z]/.test(titleB);
-
-    if (isSpecialA && !isSpecialB) return -1; // Símbolos/números antes
-    if (!isSpecialA && isSpecialB) return 1;  // Letras depois
-
-    // Ordenação alfabética em português
-    return titleA.localeCompare(titleB, 'pt', { sensitivity: 'base' });
-  });
-
-  // Renderizar os filmes
-  sortedMovies.forEach(movie => {
+  movies.forEach((movie) => {
     const { title, poster_path, vote_average } = movie;
     const movieCard = `
       <div class="movie-card">
-        <img src="${imageBaseURL}${poster_path}" alt="${title}" class="movie-poster">
+        <img src="${poster_path ? imageBaseURL + poster_path : 'placeholder.jpg'}" alt="${title}" class="movie-poster">
         <h3 class="titulo-movie">${title}</h3>
-        <p class="movie-rating">TMDB ${vote_average}</p>
-        <button class="heart-btn" data-movie-id="${movie.id}" aria-label="Adicionar aos favoritos"></button>
+        <p class="movie-rating">TMDB ${vote_average || 'N/A'}</p>
       </div>
     `;
     moviesGrid.innerHTML += movieCard;
   });
-
-  // Configurar os botões de coração
-  setupFavoriteButtons();
 }
+function displayMovies(movies) {
+  moviesGrid.innerHTML = ''; // Limpa os resultados anteriores
 
-// Configurar os botões de coração
-function setupFavoriteButtons() {
-  const heartButtons = document.querySelectorAll('.heart-btn');
+  if (movies.length === 0) {
+    moviesGrid.innerHTML = '<p class="no-results">Nenhum filme encontrado.</p>';
+    return;
+  }
 
-  heartButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      this.classList.toggle('active'); // Alterna a classe "active"
-
-      // Adicione lógica para salvar o estado do favorito (opcional)
-      const movieId = this.dataset.movieId;
-      console.log(`Filme ${movieId} foi ${this.classList.contains('active') ? 'adicionado aos favoritos' : 'removido dos favoritos'}`);
-    });
+  movies.forEach((movie) => {
+    const { id, title, poster_path, vote_average } = movie;
+    const movieCard = `
+      <div class="movie-card">
+        <a href="./movie-details.php?id=${id}" class="movie-link">
+          <img src="${poster_path ? imageBaseURL + poster_path : 'placeholder.jpg'}" alt="${title}" class="movie-poster">
+        </a>
+        <a href="./detalhes.html?id=${id}" class="movie-title-link">
+          <h3 class="titulo-movie">${title}</h3>
+        </a>
+        <p class="movie-rating">TMDB ${vote_average || 'N/A'}</p>
+      </div>
+    `;
+    moviesGrid.innerHTML += movieCard;
   });
 }
 
-// Função para exibir o filme atual no carrossel
-function showMovie(movie) {
-  const movieItem = document.createElement('div');
-  movieItem.classList.add('movie-item');
-  movieItem.style.backgroundImage = `url('https://image.tmdb.org/t/p/w1280${movie.backdrop_path}')`;
 
-  movieItem.innerHTML = `
-    <div class="movie-info">
-      <h3 class="movie-title">${movie.title}</h3>
-      <p class="movie-synopsis">${movie.overview}</p>
-      <button class="btn trailer" onclick="window.open('https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title)}+trailer')">
-        Assista o Trailer
-      </button>
-    </div>
-  `;
+  // Inicializar
+  populateYearOptions();
+  addFilterEvents();
+  fetchMovies();
+  fetchGenres();
 
-  // Adiciona o novo item ao carrossel e remove o antigo com transição
-  movieCarousel.innerHTML = ''; // Limpa o carrossel
-  movieCarousel.appendChild(movieItem);
-}
-
-// Função para trocar o filme no carrossel
-function changeMovie() {
-  currentMovieIndex = (currentMovieIndex + 1) % movies.length;
-  showMovie(movies[currentMovieIndex]);
-}
-
-// Buscar filmes populares para o carrossel
-async function fetchPopularMovies() {
-  try {
-    const response = await fetch(`${apiBaseURL}/trending/movie/week?api_key=${apiKey}&language=pt-BR`);
-    const data = await response.json();
-    movies = data.results.slice(0, 10); // Pegar os 10 filmes mais populares
-    showMovie(movies[currentMovieIndex]); // Exibir o primeiro filme
-    setInterval(changeMovie, 5000); // Alterar o filme a cada 5 segundos
-  } catch (error) {
-    console.error('Erro ao buscar filmes populares:', error);
-  }
-}
-
-// Inicializar funções
-fetchGenres();
-fetchMovies();
-fetchPopularMovies();
+})();
