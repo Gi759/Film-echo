@@ -255,97 +255,6 @@ body.active { overflow: hidden; }
 
 
 /**
- * MOVIE CARD
- */
-
-.movies-list {
-  display: grid;
-  gap: 50px;
-}
-
-.movie-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.movie-card .card-banner {
-  position: relative;
-  background: var(--gunmetal-1);
-  aspect-ratio: 2 / 3;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  transition: var(--transition-1);
-}
-
-.movie-card .card-banner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  transition: var(--transition-1);
-}
-
-.movie-card .card-banner:hover { box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.5); }
-
-.movie-card .card-banner:hover::after { background: hsla(0, 0%, 100%, 0.05); }
-
-.movie-card .card-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.movie-card .title-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: 10px;
-}
-
-.movie-card .card-title {
-  color: var(--white);
-  font-size: var(--fs-7);
-  transition: var(--transition-1);
-}
-
-.movie-card .card-title:is(:hover, :focus) { color: var(--citrine); }
-
-.movie-card .title-wrapper time {
-  color: var(--citrine);
-  font-size: var(--fs-9);
-  font-weight: var(--fw-500);
-}
-
-.movie-card .card-meta {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 15px;
-}
-
-.movie-card .badge { color: var(--citrine); }
-
-.movie-card .duration { margin-left: auto; }
-
-.movie-card :is(.duration, .rating) {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: var(--gainsboro);
-  font-size: var(--fs-11);
-  font-weight: var(--fw-500);
-}
-
-.movie-card :is(.duration, .rating) ion-icon {
-  font-size: 13px;
-  --ionicon-stroke-width: 50px;
-  color: var(--citrine);
-}
-
-/**
  * CUSTOM SLIDER & SCROLLBAR
  */
 
@@ -662,6 +571,122 @@ body.active { overflow: hidden; }
 
 .next-btn {
   right: 20px;
+}
+/*-----------------------------------*\
+ * #ABOUT SECTION
+\*-----------------------------------*/
+.about {
+  background-color: #0d0d0d; /* Fundo escuro para contraste */
+  color: hsl(0, 3%, 80%);
+  padding-block: var(--section-padding);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: 1rem;
+}
+
+.about-content {
+  max-width: 600px;
+  text-align: left;
+}
+
+.about-content h1 {
+  font-size: 3rem;
+  color: hsl(0, 3%, 80%);
+  margin-bottom: 1rem;
+}
+
+.about-content h1 span {
+  color: hsl(0, 81%, 24%);
+}
+
+.about-content p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.about-content a.btn {
+  margin-top: 1rem;
+}
+
+.about-img img {
+  width: 40vw;
+  max-width: 500px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px hsl(0, 81%, 24%);
+  transition: transform 0.3s ease;
+}
+
+.about-img img:hover {
+  transform: scale(1.05);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-img img {
+    width: 80vw;
+    margin: 0 auto;
+  }
+
+  .about-content {
+    max-width: 100%;
+  }
+}
+ /*-----------------------------------*\
+ * #CREDITS SECTION
+\*-----------------------------------*/
+.credits {
+  background-color: #1a1a1a; /* Fundo escuro para contraste */
+  color: hsl(0, 3%, 80%);
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.credits-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.credits h2 {
+  font-size: 2.5rem;
+  color: hsl(0, 81%, 24%);
+  margin-bottom: 1rem;
+}
+
+.credits p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.credits ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.credits ul li {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.credits ul li strong {
+  color: hsl(0, 81%, 24%);
 }
 
 /*-----------------------------------*\
