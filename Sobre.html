@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="Pt-Br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page Interdisciplinar</title>
+
+  <!-- 
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/Sobre.css">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body id="top">
+  <header class="header" data-header>
+    <div class="container">
+
+      <div class="overlay" data-overlay></div>
+
+      <a href="./Home Page.html" class="logo">
+        <img src="assets/images/logoo.png" alt="Film Echo logo">
+      </a>      
+      
+
+      <div class="header-actions">
+        <button class="search-btn">
+          <ion-icon name="search-outline"></ion-icon>
+        </button>
+        <div class="lang-wrapper">
+          <label for="language">
+            <ion-icon name="globe-outline"></ion-icon>
+          </label>
+          <select name="language" id="language">
+            <option value="en">Pt-Br</option>
+          </select>
+        </div>
+
+        <button class="entrar" onclick="window.location.href = './Pagina de Login.html';">Entrar</button>
+      </div>
+
+      <button class="menu-open-btn" data-menu-open-btn>
+        <ion-icon name="reorder-two"></ion-icon>
+      </button>
+
+      <nav class="navbar" data-navbar>
+        <div class="navbar-top">
+          <a href="./Home Page.html" class="logo">
+            <img src="./assets/images/logoo.png" alt="Film Echo logo">
+          </a>
+          <button class="menu-close-btn" data-menu-close-btn>
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
+
+        <ul class="navbar-list">
+          <li><a href="./Home Page.html" class="navbar-link">Inicio</a></li>
+          <li><a href="./Filmes.html" class="navbar-link">Filmes</a></li>
+          <li><a href="./Avaliações.php" class="navbar-link">Avaliações</a></li>
+          <li><a href="./Favoritos.html" class="navbar-link">Favoritos</a></li>
+          <li><a href="./Sobre.html" class="navbar-link">Sobre</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+<main>
+  <section class="about">
+    <div class="about-container">
+      <div class="about-content">
+        <h1>Sobre o <span>Film-echo</span></h1>
+        <p>
+          O <span>Film-echo</span> é o destino perfeito para quem ama cinema e quer explorar o universo dos filmes. 
+          Nosso objetivo é ajudar você a encontrar as melhores opções, seja para uma maratona de clássicos, descobrir 
+          produções independentes ou ficar por dentro dos lançamentos mais esperados.
+        </p>
+        <p>
+          Aqui, você encontra filmes de sucessos do cinema nacional a produções internacionais de prestígio, o <span>Film-echo</span> 
+          conecta você ao mundo do audiovisual.
+        </p>
+        <a href="Home Page.html" class="btn">Explorar Filmes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção de créditos -->
+  <section class="credits">
+    <div class="credits-container">
+      <h2>Quem ajudou a construir este site?</h2>
+      <p>
+        Este projeto foi desenvolvido com a colaboração de pessoas incríveis que compartilharam seu talento e dedicação:
+      </p>
+      <ul>
+        <li><strong>Cauã Miguel </li>
+        <li><strong>Felipe Mangueira</li>
+        <li><strong>Gabriel Farias</li>
+        <li><strong>Giovanna Andrade</li>
+         <li><strong>Hudson Yure</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<!-- 
+  - #FOOTER
+-->
+
+<footer class="footer">
+  <div class="footer-top">
+    <div class="container">
+      <div class="footer-brand-wrapper">
+        <a href="./Home Page.html" class="logooo">
+          <img src="./assets/images/logooo.png" alt="Film Echo logo">
+        </a>        
+        <ul class="footer-list">
+          <li><a href="./Home Page.html" class="footer-link">Inicio</a></li>
+          <li><a href="./Filmes.html" class="footer-link">Filmes</a></li>
+          <li><a href="./Avaliações.php" class="footer-link">Avaliações</a></li>
+          <li><a href="./Favoritos.html" class="footer-link">Favoritos</a></li>
+          <li><a href="./Sobre.html" class="footer-link">Sobre</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <p class="copyright">&copy; 2024 <a href="#">2°DS</a>. All Rights Reserved</p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- 
+  - #GO TO TOP
+-->
+
+<a href="#top" class="go-top" data-go-top>
+  <ion-icon name="chevron-up"></ion-icon>
+</a>
+
+<!-- 
+  - custom js link
+-->
+<script src="./assets/js/script.js"></script>
+
+<!-- 
+  - ionicon link
+-->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>
