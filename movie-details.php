@@ -1,8 +1,3 @@
-<?php
-// Código ponte reutilizado
-include 'database/conexao_bd_mysql.php';
-?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -153,6 +148,13 @@ include 'database/conexao_bd_mysql.php';
       </div>
     </div>
   </footer>
+
+  <?php
+// Código ponte reutilizado
+    include 'database/conexao_bd_mysql.php';
+  ?>
+
+
 
   <a href="#top" class="go-top" data-go-top>
     <ion-icon name="chevron-up"></ion-icon>

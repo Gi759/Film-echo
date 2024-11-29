@@ -1,34 +1,3 @@
-<?php
-
-$local_servidor = "localhost";
-$bd_procurado = "bd_inter";
-
-$usuario = "root";
-$senha = "";
-
-// Conexão ao banco de dados
-$conexao_servidor_bd = mysqli_connect($local_servidor, $usuario, $senha, $bd_procurado, 3306);
-
-if (!$conexao_servidor_bd) {
-    die("Conexão falhou: " . mysqli_connect_error());
-}
-
-// Função para buscar os filmes avaliados
-$sql_buscar = "SELECT * FROM tb_filmes";
-$resultado_filmes = mysqli_query($conexao_servidor_bd, $sql_buscar);
-
-$filmes = [];
-if ($resultado_filmes && mysqli_num_rows($resultado_filmes) > 0) {
-    while ($linha = mysqli_fetch_assoc($resultado_filmes)) {
-        $filmes[] = $linha;
-    }
-}
-
-// Fechando a conexão
-mysqli_close($conexao_servidor_bd);
-
-?>
-
 <!DOCTYPE html>
 <html lang="Pt-Br">
 
@@ -91,6 +60,39 @@ mysqli_close($conexao_servidor_bd);
   <footer class="footer">
     <!-- Rodapé -->
   </footer>
+
+  <?php
+
+$local_servidor = "localhost";
+$bd_procurado = "bd_inter";
+
+$usuario = "root";
+$senha = "";
+
+// Conexão ao banco de dados
+$conexao_servidor_bd = mysqli_connect($local_servidor, $usuario, $senha, $bd_procurado, 3306);
+
+if (!$conexao_servidor_bd) {
+    die("Conexão falhou: " . mysqli_connect_error());
+}
+
+// Função para buscar os filmes avaliados
+$sql_buscar = "SELECT * FROM tb_filmes";
+$resultado_filmes = mysqli_query($conexao_servidor_bd, $sql_buscar);
+
+$filmes = [];
+if ($resultado_filmes && mysqli_num_rows($resultado_filmes) > 0) {
+    while ($linha = mysqli_fetch_assoc($resultado_filmes)) {
+        $filmes[] = $linha;
+    }
+}
+
+// Fechando a conexão
+mysqli_close($conexao_servidor_bd);
+
+?>
+
+
 </body>
 
 </html>
@@ -115,4 +117,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (mysqli_stmt_execute($stmt)) {
         echo "<script>alert('Avaliação adicionada com sucesso!');</script>";
     } else {
-        echo "<script>alert('Erro
+        echo "<script>alert('Erro ao adicionar avaliação: " . mysqli_error($conexao_servidor_bd) . "');</script>";
+    }
+
+    mysqli_stmt_close($stmt);
+    mysqli_close($conexao_servidor_bd);
+}
+?>

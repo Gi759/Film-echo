@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página do Usuário</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./assets/css/user-page.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body id="top">
+    <header class="header" data-header>
+        <div class="container">
+            <div class="overlay" data-overlay></div>
+
+            <a href="./user-page.html" class="logo">
+                <img src="./assets/images/logoo.png" alt="Film Echo logo">
+            </a>
+
+            <div class="header-actions">
+                <button class="search-btn">
+                    <ion-icon name="search-outline"></ion-icon>
+                </button>
+                <div class="lang-wrapper">
+                    <label for="language">
+                        <ion-icon name="globe-outline"></ion-icon>
+                    </label>
+                    <select name="language" id="language">
+                        <option value="en">Pt-Br</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="window.location.href = './Pagina de Login.html';">Entrar</button>
+            </div>
+
+            <button class="menu-open-btn" data-menu-open-btn>
+                <ion-icon name="reorder-two"></ion-icon>
+            </button>
+
+            <nav class="navbar" data-navbar>
+                <div class="navbar-top">
+                    <a href="./user-page.html" class="logo">
+                        <img src="./assets/images/logoo.png" alt="Film Echo logo">
+                    </a>
+                    <button class="menu-close-btn" data-menu-close-btn>
+                        <ion-icon name="close-outline"></ion-icon>
+                    </button>
+                </div>
+
+                <ul class="navbar-list">
+                    <li><a href="./Home Page.html" class="navbar-link">Inicio</a></li>
+                    <li><a href="./Filmes.html" class="navbar-link">Filmes</a></li>
+                    <li><a href="./Avaliações.php" class="navbar-link">Avaliações</a></li>
+                    <li><a href="./Favoritos.html" class="navbar-link">Favoritos</a></li>
+                    <li><a href="./Criadores.html" class="navbar-link">Criadores</a></li>
+                    <li><a href="./user-page.html" class="navbar-link">Página de Usuário</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <article>
+            <section class="user-profile">
+                <div class="container">
+                    <h1 class="h1 section-title">Perfil do Usuário</h1>
+                    <div class="profile-card">
+                        <div class="profile-picture">
+                            <img src="./assets/images/main.jpg" alt="Foto do Usuário">
+                        </div>
+                        <div class="profile-info">
+                            <h2 class="user-name">Nome do Usuário</h2>
+                            <p class="user-email">email@exemplo.com</p>
+                            <p class="user-bio">Aqui está uma breve descrição sobre o usuário. Ele pode incluir interesses, hobbies ou qualquer outra informação relevante.</p>
+                            <button class="btn btn-primary">Editar Perfil</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-brand-wrapper">
+                    <a href="./user-page.html" class="logooo">
+                        <img src="./assets/images/logoo.png" alt="Film Echo logo">
+                    </a>
+                    <ul class="footer-list">
+                        <li><a href="./Home Page.html" class="footer-link">Inicio</a></li>
+                        <li><a href="./Filmes.html" class="footer-link">Filmes</a></li>
+                        <li><a href="./Avaliações.php" class="footer -link">Avaliações</a></li>
+                        <li><a href="./Favoritos.html" class="footer-link">Favoritos</a></li>
+                        <li><a href="./Criadores.html" class="footer-link">Criadores</a></li>
+                        <li><a href="./user-page.html" class="navbar-link">Página de Usuário</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="copyright">&copy; 2024 <a href="#">Film Echo</a>. Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
