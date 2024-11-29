@@ -541,13 +541,6 @@ body.active { overflow: hidden; }
 
 
 
-
-/*-----------------------------------*\
- * #HERO
-\*-----------------------------------*/
-
-
-
 /*-----------------------------------*\
  * #HERO
 \*-----------------------------------*/
@@ -819,6 +812,12 @@ body.active { overflow: hidden; }
 
 .hidden {
   display: none;
+}
+.no-results {
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 20px;
 }
 
 
