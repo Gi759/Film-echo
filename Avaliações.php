@@ -14,11 +14,55 @@
 </head>
 
 <body id="top">
-  <header class="header" data-header>
+<header class="header" data-header>
     <div class="container">
-      <!-- Cabeçalho e navegação -->
+      <div class="overlay" data-overlay></div>
+
+      <a href="./Avaliações.php" class="logo">
+        <img src="assets/images/logoo.png" alt="Film Echo logo">
+      </a>
+
+      <div class="header-actions">
+        <button class="search-btn">
+          <ion-icon name="search-outline"></ion-icon>
+        </button>
+        <div class="lang-wrapper">
+          <label for="language">
+            <ion-icon name="globe-outline"></ion-icon>
+          </label>
+          <select name="language" id="language">
+            <option value="en">Pt-Br</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="window.location.href = './Pagina de Login.html';">Entrar</button>
+      </div>
+
+      <button class="menu-open-btn" data-menu-open-btn>
+        <ion-icon name="reorder-two"></ion-icon>
+      </button>
+
+      <nav class="navbar" data-navbar>
+        <div class="navbar-top">
+          <a href="./Avaliações.php" class="logo">
+            <img src="./assets/images/logoo.png" alt="Film Echo logo">
+          </a>
+          <button class="menu-close-btn" data-menu-close-btn>
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
+
+        <ul class="navbar-list">
+          <li><a href="./Home Page.html" class="navbar-link">Inicio</a></li>
+          <li><a href="./Filmes.html" class="navbar-link">Filmes</a></li>
+          <li><a href="./Avaliações.php" class="navbar-link">Avaliações</a></li>
+          <li><a href="./Favoritos.html" class="navbar-link">Favoritos</a></li>
+          <li><a href="./Criadores.html" class="navbar-link">Criadores</a></li>
+          <li><a href="./user-page.html" class="navbar-link">Página de Usuário</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
+
 
   <main>
     <h1>Avaliações de Filmes</h1>

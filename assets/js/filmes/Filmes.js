@@ -314,10 +314,64 @@ function displayMovies(movies) {
           <h3 class="titulo-movie">${title}</h3>
         </a>
         <p class="movie-rating">TMDB ${vote_average || 'N/A'}</p>
+        <button class="favorite-btn" data-id="${id}">
+          <ion-icon name="heart-outline"></ion-icon>
+        </button>
       </div>
     `;
     moviesGrid.innerHTML += movieCard;
   });
+
+  // Adição do evento de clique no botão de favoritos
+  const favoriteBtns = document.querySelectorAll('.favorite-btn');
+  favoriteBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const movieId = btn.getAttribute('data-id');
+      toggleFavorite(movieId, btn);
+  });
+});
+
+
+// Função para armazenar filmes favoritos
+function toggleFavorite(movieId, button) {
+  const index = favoriteMovies.indexOf(movieId);
+  if (index === -1) {
+    favoriteMovies.push(movieId);
+    button.querySelector('ion-icon').name = 'heart';
+  } else {
+    favoriteMovies.splice(index, 1);
+    button.querySelector('ion-icon').name = 'heart-outline';
+  }
+  localStorage.setItem('favoriteMovies', JSON.stringify(favoriteMovies)); // Salva no localStorage
+}
+
+
+// Inicializa o array de filmes favoritos
+const favoriteMovies = [];
+
+// Função para carregar os filmes favoritos do localStorage
+function loadFavoriteMovies() {
+  const storedFavorites = JSON.parse(localStorage.getItem('favoriteMovies'));
+  if (storedFavorites) {
+    favoriteMovies.push(...storedFavorites); // Adiciona os filmes favoritos armazenados ao array
+  }
+}
+
+// Função para atualizar os ícones dos botões de favoritar
+function updateFavoriteButtons() {
+  favoriteMovies.forEach(id => {
+    const btn = document.querySelector(`.favorite-btn[data-id="${id}"]`);
+    if (btn) {
+      btn.querySelector('ion-icon').name = 'heart'; // Muda o ícone para coração preenchido
+    }
+  });
+}
+
+// Chama a função para carregar os favoritos ao iniciar a aplicação
+loadFavoriteMovies();
+updateFavoriteButtons();
+
+
 }
 
 
