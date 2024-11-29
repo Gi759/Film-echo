@@ -1,64 +1,28 @@
 import { InserirFilmesNaTela } from "./main.js";
-import { searchTerm, isSearching } from "./filtro.js";
 
 export const apiKey = '9bbf7d734588f0a01ba0510c39e7e786';
-export let currentPage = 1; // Página inicial
 
+// Carrega os filmes favoritos do localStorage
+const favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovies')) || []; // Carrega favoritos do localStorage
 
 // Função para carregar filmes favoritos
 function carregarFilmesFavoritos() {
-  
-}
-
-// Função para carregar mais resultados da pesquisa
-function carregarMaisResultadosDaPesquisa() {
-  fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=pt-BR&query=${encodeURIComponent(searchTerm)}&page=${currentPage}&include_adult=false`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erro ao conectar à API.');
-      }
-      return response.json();
-    })
-    .then(data => {
-      const filmes = data.results;
-      InserirFilmesNaTela(filmes); // Adiciona filmes ao DOM
-    })
-    .catch(error => {
-      console.error('Erro ao carregar mais resultados da pesquisa:', error);
-    });
-}
-
-// Função para carregar filmes da API
-function carregarFilmes(page = 1) {
-  fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=pt-BR&page=${page}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erro ao conectar à API.');
-      }
-      return response.json();
-    })
-    .then(data => {
-      const filmes = data.results;
-      InserirFilmesNaTela(filmes); // Adiciona filmes ao DOM
-    })
-    .catch(error => {
-      console.error('Erro ao carregar filmes:', error);
-    });
-}
-
-// Inicializa com a primeira página
-carregarFilmes(currentPage);
-
-// Botão "Carregar Mais"
-const carregarMaisBtn = document.querySelector('#carregarMais');
-carregarMaisBtn.addEventListener('click', () => {
-  currentPage++; // Incrementa a página atual
-
-  if (isSearching) {
-    carregarMaisResultadosDaPesquisa();
-  } else {
-    carregarMaisFilmesPopulares();
+  if (favoriteMovies.length === 0) {
+    const ElementoParaInserirFilmes = document.querySelector('.movies-list');
+    ElementoParaInserirFilmes.innerHTML = '<p>Nenhum filme favorito encontrado.</p>'; // Mensagem se não houver favoritos
+    return;
   }
-});
 
-export { carregarMaisFilmesPopulares, carregarMaisResultadosDaPesquisa };
+  // Buscar detalhes dos filmes a partir da API usando os IDs armazenados
+  const promises = favoriteMovies.map(movieId => {
+    return fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=pt-BR`)
+      .then(response => response.json());
+  });
+
+  Promise.all(promises)
+    .then(filmes => InserirFilmesNaTela(filmes))
+    .catch(error => console.error('Erro ao carregar filmes favoritos:', error));
+}
+
+// Inicializa com os filmes favoritos
+carregarFilmesFavoritos();

@@ -1,8 +1,7 @@
-const ElementoParaInserirFilmes = document.getElementById('filmes');
-
+const ElementoParaInserirFilmes = document.querySelector('.movies-list');
 
 function InserirFilmesNaTela(filmes) {
-  const ElementoParaInserirFilmes = document.querySelector('.movies-list');
+  ElementoParaInserirFilmes.innerHTML = ''; // Limpa a lista antes de inserir novos filmes
 
   filmes.forEach(movie => {
     const movieId = movie.id;
@@ -29,11 +28,49 @@ function InserirFilmesNaTela(filmes) {
           <ion-icon name="star"></ion-icon>
           ${rating}
         </span>
+        <button class="favorite-btn" data-id="${movieId}">
+          <ion-icon name="heart-outline"></ion-icon>
+        </button>
       </div>
     `;
 
     ElementoParaInserirFilmes.appendChild(movieCard);
   });
+  // Função para atualizar os ícones dos botões de favoritar
+function atualizarBotoesFavoritos() {
+  const favoriteBtns = document.querySelectorAll('.favorite-btn');
+  favoriteBtns.forEach(btn => {
+    const movieId = btn.getAttribute('data-id');
+    if (favoriteMovies.includes(movieId)) {
+      btn.querySelector('ion-icon').name = 'heart'; // Muda o ícone para coração preenchido
+    } else {
+      btn.querySelector('ion-icon').name = 'heart-outline'; // Muda o ícone para coração vazio
+    }
+
+    // Adiciona evento de clique ao botão de favorito
+    btn.addEventListener('click', () => {
+      toggleFavorite(movieId, btn);
+    });
+  });
+}
+
+// Função para armazenar filmes favoritos
+function toggleFavorite(movieId, button) {
+  const index = favoriteMovies.indexOf(movieId);
+  if (index === -1) {
+    favoriteMovies.push(movieId);
+    button.querySelector('ion-icon').name = 'heart'; // Muda o ícone para coração preenchido
+  } else {
+    favoriteMovies.splice(index, 1);
+    button.querySelector('ion-icon').name = 'heart-outline'; // Muda o ícone para coração vazio
+  }
+  localStorage.setItem('favoriteMovies', JSON.stringify(favoriteMovies)); // Salva no localStorage
+
+  // Inicializa com os filmes favoritos
+carregarFilmesFavoritos();
+}
+
+
 }
 
 export { InserirFilmesNaTela };
