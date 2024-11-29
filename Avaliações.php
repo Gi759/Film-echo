@@ -60,67 +60,44 @@
   <footer class="footer">
     <!-- Rodapé -->
   </footer>
-
-  <?php
-
-$local_servidor = "localhost";
-$bd_procurado = "bd_inter";
-
-$usuario = "root";
-$senha = "";
-
-// Conexão ao banco de dados
-$conexao_servidor_bd = mysqli_connect($local_servidor, $usuario, $senha, $bd_procurado, 3306);
-
-if (!$conexao_servidor_bd) {
-    die("Conexão falhou: " . mysqli_connect_error());
-}
-
-// Função para buscar os filmes avaliados
-$sql_buscar = "SELECT * FROM tb_filmes";
-$resultado_filmes = mysqli_query($conexao_servidor_bd, $sql_buscar);
-
-$filmes = [];
-if ($resultado_filmes && mysqli_num_rows($resultado_filmes) > 0) {
-    while ($linha = mysqli_fetch_assoc($resultado_filmes)) {
-        $filmes[] = $linha;
-    }
-}
-
-// Fechando a conexão
-mysqli_close($conexao_servidor_bd);
-
-?>
-
-
 </body>
 
 </html>
 
 <?php
-// Inserir avaliação (se houver POST)
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+// Conexão ao banco de dados
+include 'database/conexao_bd_mysql.php';
+
+// Inicializa variáveis
+$filmes = [];
+
+// Insere avaliações no banco de dados
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulo = $_POST['titulo'];
     $poster = $_POST['poster'];
-    $estrelas = (int) $_POST['estrelas'];
+    $estrelas = $_POST['estrelas'];
     $comentarios = $_POST['comentarios'];
 
-    $conexao_servidor_bd = mysqli_connect($local_servidor, $usuario, $senha, $bd_procurado, 3306);
-    if (!$conexao_servidor_bd) {
-        die("Conexão falhou: " . mysqli_connect_error());
-    }
-
-    $sql_inserir = "INSERT INTO tb_filmes (filme_titulo, filme_poster, filme_estrelas, filme_comentarios) VALUES (?, ?, ?, ?)";
-    $stmt = mysqli_prepare($conexao_servidor_bd, $sql_inserir);
-    mysqli_stmt_bind_param($stmt, "ssis", $titulo, $poster, $estrelas, $comentarios);
-
-    if (mysqli_stmt_execute($stmt)) {
-        echo "<script>alert('Avaliação adicionada com sucesso!');</script>";
-    } else {
-        echo "<script>alert('Erro ao adicionar avaliação: " . mysqli_error($conexao_servidor_bd) . "');</script>";
-    }
-
-    mysqli_stmt_close($stmt);
-    mysqli_close($conexao_servidor_bd);
+    $sql_insert = "INSERT INTO tb_avaliacoes (poster_filme, nome_filme, avaliacao_texto, avaliacao_estrelas) 
+                   VALUES (?, ?, ?, ?)";
+    $stmt = $mysqli->prepare($sql_insert);
+    $stmt->bind_param("sssd", $poster, $titulo, $comentarios, $estrelas);
+    $stmt->execute();
+    $stmt->close();
 }
+
+// Consulta avaliações no banco de dados
+$sql_select = "SELECT nome_filme AS filme_titulo, poster_filme AS filme_poster, 
+                      avaliacao_texto AS filme_comentarios, avaliacao_estrelas AS filme_estrelas 
+               FROM tb_avaliacoes ORDER BY id_avaliacao DESC";
+$result = $mysqli->query($sql_select);
+
+// Organiza os resultados em um array
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $filmes[] = $row;
+    }
+}
+
+$mysqli->close();
 ?>
