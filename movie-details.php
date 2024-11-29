@@ -46,7 +46,6 @@
       <ul class="navbar-list">
           <li><a href="./Home Page.html" class="navbar-link">Inicio</a></li>
           <li><a href="./Filmes.html" class="navbar-link">Filmes</a></li>
-          <li><a href="./Avaliações.php" class="navbar-link">Avaliações</a></li>
           <li><a href="./Favoritos.html" class="navbar-link">Favoritos</a></li>
           <li><a href="./Criadores.html" class="navbar-link">Criadores</a></li>
         </ul>
@@ -135,7 +134,6 @@
           <ul class="footer-list">
             <li><a href="./Home Page.html" class="footer-link">Inicio</a></li>
             <li><a href="./Filmes.html" class="footer-link">Filmes</a></li>
-            <li><a href="./Avaliações.php" class="footer-link">Avaliações</a></li>
             <li><a href="./Favoritos.html" class="footer-link">Favoritos</a></li>
             <li><a href="./Criadores.html" class="footer-link">Criadores</a></li>
           </ul>
